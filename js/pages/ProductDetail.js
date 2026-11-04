@@ -10,6 +10,8 @@ import { getCategoryName, getConditionName } from '../data/categories.js';
 import { isFavorite as isFavoriteUtil, toggleFavorite } from '../utils/favorites.js';
 import { Modal, alert } from '../components/Modal.js';
 
+console.log('ProductDetail.js module loaded');
+
 let currentProduct = null;
 let currentImageIndex = 0;
 
