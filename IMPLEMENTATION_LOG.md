@@ -442,3 +442,21 @@ Environment: Local HTTP server at http://localhost:5500 (server verified running
 Phase 2 verification is BLOCKED pending browser access. All source fixes for Luna Review 3 P0/P1 conditions are complete and committed (cf5d882). Static verification (source inspection, syntax, git history) passes.
 
 Screenshots saved to: N/A — browser unavailable
+
+---
+
+## Correction — Post-Luna Review 5/7
+
+The Review 3 and Review 4 entries above describe intermediate implementation states. This section is authoritative for the final Phase 2 source state.
+
+| Item | Current status | Evidence |
+|---|---|---|
+| Message Seller and Make Offer modal close behavior | 🔍 Structurally corrected; browser verification pending | `js/pages/ProductDetail.js`; commit `cf5d882` |
+| Imported modal alert helper | ✅ Source verified | `ProductDetail.js` imports and calls the exported `alert()` helper |
+| Share fallback raw URL handling | ✅ Source verified | `input.value = window.location.href`; input is appended through modal content |
+| PWA manifest routes and icons | ✅ Source verified | `assets/manifest.json`; referenced files exist |
+| CSS color-token compliance | ✅ Source verified | No hardcoded color literals outside `css/variables.css` |
+| Browser smoke test | ⚠️ BLOCKED | Product owner must verify in a real browser |
+| Phase 3 | 📋 Deferred | Must not begin until Phase 2 browser verification is complete |
+
+Known limitations remain: single image per product, prototype-only messaging/offers, same-document favorites synchronization, remote Unsplash images, and no image zoom.
