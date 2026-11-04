@@ -384,7 +384,7 @@ Based on `TODO.md` and project roadmap:
 
 | Claim | Original Status | Corrected Status | Reason |
 |-------|----------------|------------------|--------|
-| P0 modal regression fixed | N/A | **NOT FIXED** — handler returned false so dispatcher skipped close. Fixed in commit <NEW_HASH> (Luna Review 5). | Async handlers removed, but `return false` prevented dispatcher close; modal never closed, alert never fired |
+| P0 modal regression fixed | N/A | **NOT FIXED** — handler returned false so dispatcher skipped close. Fixed in commit cf5d882 (Luna Review 5/7). | Async handlers removed, but `return false` prevented dispatcher close; modal never closed, alert never fired |
 | Share fallback uses no inline JS | N/A | ✅ Fixed | `createElement` + event listeners, URL escaped |
 | PWA manifest routes relative | N/A | ✅ Fixed | Changed `/marketplace` → `./marketplace.html`, `/sell` → `./sell.html` |
 | All verification claims evidence-backed | ❌ Overclaimed | 🔍 **Manually Tested (unverified)** | No browser evidence captured (screenshots, validator output) |
@@ -405,9 +405,11 @@ Based on `TODO.md` and project roadmap:
 
 | Issue | Prior claim | Actual finding | Fixed in commit | Verified by |
 |---|---|---|---|---|
-| P0 — Modal handlers close modal on valid submit | Claimed fixed in Review 3 | NOT FIXED — return false prevented dispatcher close | <NEW_HASH> | UNABLE TO VERIFY — no browser available |
-| P1 — Share fallback URL preserves & | Claimed fixed | NOT FIXED — escapeHtml double-encoded in .value | <NEW_HASH> | UNABLE TO VERIFY — no browser available |
-| P1 — Log accuracy | Claimed fixed | PARTIALLY FIXED — Review 3 row mis-stated P0 status | <NEW_HASH> | Source inspection |
+| P0 — Modal handlers close modal on valid submit | Claimed fixed in Review 3 | NOT FIXED — return false prevented dispatcher close | cf5d882 | UNABLE TO VERIFY — no browser available |
+| P1 — Share fallback URL preserves & | Claimed fixed | NOT FIXED — escapeHtml double-encoded in .value | cf5d882 | UNABLE TO VERIFY — no browser available |
+| P1 — Log accuracy | Claimed fixed | PARTIALLY FIXED — Review 3 row mis-stated P0 status | cf5d882 | Source inspection |
+
+> Commit hash cf5d882 is the final Phase 2 P0/P1 repair commit.
 
 ---
 
