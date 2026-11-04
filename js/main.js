@@ -80,7 +80,7 @@ function renderFeatures(container, features) {
  * @param {string} productId - Product ID
  */
 function handleProductClick(productId) {
-  const product = sampleProducts.find(p => p.id === productId);
+  const product = sampleProducts.find(p => String(p.id) === String(productId));
   if (product) {
     console.log('Navigate to product detail:', product.title);
     window.location.href = `product.html?id=${productId}`;
@@ -93,14 +93,14 @@ function handleProductClick(productId) {
  * @param {boolean} isFavorite - New favorite state
  */
 function handleFavoriteToggle(productId, isFavorite) {
-  const product = sampleProducts.find(p => p.id === productId);
+  const product = sampleProducts.find(p => String(p.id) === String(productId));
   if (product) {
     product.isFavorite = isFavorite;
     console.log(`${isFavorite ? 'Added to' : 'Removed from'} favorites:`, product.title);
   }
 
   // Also update the full products array for cross-page consistency
-  const fullProduct = products.find(p => p.id === productId);
+  const fullProduct = products.find(p => String(p.id) === String(productId));
   if (fullProduct) {
     fullProduct.isFavorite = isFavorite;
   }

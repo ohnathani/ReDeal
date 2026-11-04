@@ -243,7 +243,7 @@ export const products = [...createdProducts, ...seedProducts];
  * @returns {Object|null} Product object or null if not found
  */
 export function getProduct(id) {
-  return products.find(p => p.id === id) || null;
+  return products.find(p => String(p.id) === String(id)) || null;
 }
 
 /**
