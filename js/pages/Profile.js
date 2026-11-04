@@ -314,7 +314,7 @@ async function handleLogout() {
 
   if (confirmed) {
     logout();
-    // Redirect handled by auth:logout event in Header
+    window.location.href = 'index.html';
   }
 }
 
