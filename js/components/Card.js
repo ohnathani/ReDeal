@@ -48,18 +48,30 @@ export class ProductCard {
     const imageContainer = createElement('div', { class: 'product-card__image-container' });
 
     if (this.image) {
-      imageContainer.appendChild(createElement('img', {
+      const productImage = createElement('img', {
         class: 'product-card__image',
         src: this.image,
         alt: escapeHtml(this.title),
         loading: 'lazy',
-      }));
+      });
+
+      // Keep the card layout intact when a remote image is unavailable.
+      productImage.addEventListener('error', () => {
+        productImage.replaceWith(createElement('div', {
+          class: 'product-card__placeholder',
+          role: 'img',
+          'aria-label': `${this.title} image unavailable`,
+        }, 'Image unavailable'));
+      }, { once: true });
+
+      imageContainer.appendChild(productImage);
     } else {
       // Placeholder
       imageContainer.appendChild(createElement('div', {
         class: 'product-card__placeholder',
-        style: 'width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: var(--color-text-muted);',
-      }, 'No Image'));
+        role: 'img',
+        'aria-label': `${this.title} image unavailable`,
+      }, 'Image unavailable'));
     }
 
     // Price tag
