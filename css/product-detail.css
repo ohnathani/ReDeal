@@ -200,6 +200,8 @@
   margin-bottom: var(--space-md);
   position: relative;
   width: 100%;
+  min-width: 200px;
+  min-height: 200px;
 }
 
 .gallery__main-image {
