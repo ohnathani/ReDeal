@@ -40,6 +40,10 @@
   --color-warning-bg: #FFF8E1;
   --color-error-bg: #FDEDEA;
 
+  /* === Auth Colors === */
+  --color-guest-badge: var(--color-accent-yellow);
+  --color-guest-badge-text: var(--color-warning);
+
   /* === On-Primary (text/icon color on primary backgrounds) === */
   --color-on-primary: #FFFFFF;
 
@@ -98,6 +102,7 @@
   --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
   --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
   --shadow-focus: 0 0 0 3px rgb(94 23 235 / 0.3);
+  --shadow-focus-error: 0 0 0 3px rgb(220 53 69 / 0.15);
   --shadow-action-bar: 0 -4px 12px rgb(0 0 0 / 0.05);
 
   /* === Overlay/Backdrop === */
