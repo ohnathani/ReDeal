@@ -619,3 +619,27 @@ Browser smoke test: ALL 10 TESTS PASS
 ### Phase 4 Ready
 
 Phase 3 is CLOSED. Phase 4 may begin.
+
+---
+
+## Security Audit Note — Phase 4 Authentication (2026-11-05)
+
+**Luna Review 14** identified 13 fixes (FIX-1 through FIX-13) applied to Phase 4
+authentication implementation. All fixes address security-relevant concerns:
+
+- **FIX-1** (P0): Corrected `requireAuth` import path — prevents authentication bypass on protected routes
+- **FIX-2** (P0): Fixed Set/Array misuse in favorites — prevents incorrect favorite state
+- **FIX-3** (P0): Moved logout handler attachment — ensures logout action fires correctly
+- **FIX-4** (P1): Added `.header__auth` container to 7 pages — enables auth state rendering
+- **FIX-5** (P1): `getStorageKey` derives user from session — enforces per-user data isolation
+- **FIX-6** (P1): `migrateLegacyFavorites` called on all login flows — prevents data leakage between users
+- **FIX-7** (P2): Deduplicated auth listeners — reduces event handler overhead
+- **FIX-8** (P2): Standardized event naming (`favorites:changed`) — consistency with auth events
+- **FIX-9** (P2): Replaced hardcoded colors with CSS variables — maintains design system integrity
+- **FIX-10** (P2): This audit trail entry — documents security-relevant changes
+- **FIX-11** (P0): Session validation in `restoreSession` — validates expiry and user existence
+- **FIX-12** (P0): Initial validation suppression in Login/Signup — prevents false errors on load
+- **FIX-13** (P1): Demo bypass gated by explicit action — prevents accidental demo sessions
+
+All changes committed individually with source verification (`node --check`).
+Working tree clean after FIX-13.
