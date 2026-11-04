@@ -3,11 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="ReDeal Profile — Manage your account and listings">
+  <meta name="description" content="Your ReDeal profile — Manage listings, favorites, and settings">
   <title>Profile — ReDeal</title>
   <link rel="stylesheet" href="css/variables.css">
   <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/profile.css">
   <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
   <link rel="apple-touch-icon" href="assets/images/apple-touch-icon.svg">
   <link rel="manifest" href="assets/manifest.json">
@@ -26,39 +27,177 @@
         </svg>
         <span class="header__logo-text">ReDeal</span>
       </a>
-      <a href="create-listing.html" class="btn btn--primary header__new-listing" aria-label="Create new listing">
-        <svg class="btn__icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M12 5v14M5 12h14"/>
-        </svg>
-        <span>New Listing</span>
-      </a>
+      <div class="header__auth"></div>
     </div>
     <div class="header__search" role="search">
       <svg class="header__search-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <circle cx="11" cy="11" r="8"/>
         <path d="M21 21l-4.35-4.35"/>
       </svg>
-      <input type="search" class="header__search-input" placeholder="Search..." aria-label="Search">
+      <input type="search" class="header__search-input" placeholder="Search items, brands, or requests..." aria-label="Search items, brands, or requests">
     </div>
   </header>
 
-  <main id="main" class="main" role="main">
-    <div class="marketplace-header">
-      <h1 class="marketplace-title">Profile</h1>
-      <p class="marketplace-subtitle">Manage your account, listings, and favorites.</p>
+  <main id="main" class="main profile-main" role="main">
+    <!-- Authenticated content (rendered by JS) -->
+    <div id="profile-content" hidden>
+      <!-- Profile Header -->
+      <section class="profile-header" aria-labelledby="profile-name">
+        <div class="profile-header__avatar">
+          <div class="avatar avatar--xl" id="profile-avatar" aria-hidden="true"></div>
+        </div>
+        <div class="profile-header__info">
+          <h1 id="profile-name" class="profile-header__name"></h1>
+          <p id="profile-email" class="profile-header__email"></p>
+          <div id="profile-badges" class="profile-header__badges" aria-label="Account status"></div>
+        </div>
+      </section>
+
+      <!-- Stats -->
+      <section class="profile-stats" aria-labelledby="stats-heading">
+        <h2 id="stats-heading" class="visually-hidden">Profile Statistics</h2>
+        <div class="profile-stats__grid">
+          <article class="stat-card">
+            <div class="stat-card__value" id="stat-listings">0</div>
+            <div class="stat-card__label">Listings</div>
+          </article>
+          <article class="stat-card">
+            <div class="stat-card__value" id="stat-favorites">0</div>
+            <div class="stat-card__label">Favorites</div>
+          </article>
+          <article class="stat-card">
+            <div class="stat-card__value" id="stat-reviews">0</div>
+            <div class="stat-card__label">Reviews</div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Sections -->
+      <div class="profile-sections">
+        <!-- My Listings -->
+        <section class="profile-section" id="my-listings-section" aria-labelledby="my-listings-heading">
+          <header class="profile-section__header">
+            <h2 id="my-listings-heading" class="profile-section__title">My Listings</h2>
+            <a href="create-listing.html" class="btn btn--primary btn--sm">Create Listing</a>
+          </header>
+          <div class="profile-section__content">
+            <div class="grid grid--2 grid--md-3" id="my-listings-grid" role="list">
+              <!-- Rendered by JS -->
+            </div>
+            <div class="empty-state" id="my-listings-empty" hidden>
+              <svg class="empty-state__icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <path d="M14 2v6h6"/>
+                <path d="M16 13H8"/>
+                <path d="M16 17H8"/>
+                <path d="M10 9H8"/>
+              </svg>
+              <h3 class="empty-state__title">No listings yet</h3>
+              <p class="empty-state__description">Your created listings will appear here.</p>
+              <a href="create-listing.html" class="btn btn--primary">Create Your First Listing</a>
+            </div>
+          </div>
+        </section>
+
+        <!-- Favorites -->
+        <section class="profile-section" id="favorites-section" aria-labelledby="favorites-heading">
+          <header class="profile-section__header">
+            <h2 id="favorites-heading" class="profile-section__title">Favorites</h2>
+          </header>
+          <div class="profile-section__content">
+            <div class="grid grid--2 grid--md-3" id="favorites-grid" role="list">
+              <!-- Rendered by JS -->
+            </div>
+            <div class="empty-state" id="favorites-empty" hidden>
+              <svg class="empty-state__icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+              </svg>
+              <h3 class="empty-state__title">No favorites yet</h3>
+              <p class="empty-state__description">Items you favorite will appear here.</p>
+              <a href="marketplace.html" class="btn btn--primary">Browse Marketplace</a>
+            </div>
+          </div>
+        </section>
+
+        <!-- Settings -->
+        <section class="profile-section" id="settings-section" aria-labelledby="settings-heading">
+          <header class="profile-section__header">
+            <h2 id="settings-heading" class="profile-section__title">Settings</h2>
+          </header>
+          <div class="profile-section__content">
+            <div class="settings-form" id="settings-form">
+              <div class="form-group">
+                <label for="settings-name" class="form-label">Display Name</label>
+                <input type="text" id="settings-name" class="form-input" autocomplete="name">
+                <span class="form-error" id="settings-name-error" role="alert" hidden></span>
+              </div>
+              <div class="form-actions">
+                <button type="button" class="btn btn--primary" id="save-name-btn">Save Changes</button>
+              </div>
+            </div>
+
+            <div class="settings-divider"></div>
+
+            <div class="settings-form">
+              <h3 class="settings-form__title">Change Password</h3>
+              <p class="settings-form__description">Password change is not available in this prototype.</p>
+              <div class="form-group">
+                <label for="current-password" class="form-label">Current Password</label>
+                <input type="password" id="current-password" class="form-input" disabled>
+              </div>
+              <div class="form-group">
+                <label for="new-password" class="form-label">New Password</label>
+                <input type="password" id="new-password" class="form-input" disabled>
+              </div>
+              <div class="form-group">
+                <label for="confirm-new-password" class="form-label">Confirm New Password</label>
+                <input type="password" id="confirm-new-password" class="form-input" disabled>
+              </div>
+              <button type="button" class="btn btn--secondary" disabled>Change Password</button>
+            </div>
+
+            <div class="settings-divider"></div>
+
+            <div class="settings-form settings-form--danger">
+              <h3 class="settings-form__title">Delete Account</h3>
+              <p class="settings-form__description">Account deletion is not available in this prototype.</p>
+              <button type="button" class="btn btn--ghost btn--destructive" disabled>Delete Account</button>
+            </div>
+
+            <div class="settings-divider"></div>
+
+            <div class="form-actions">
+              <button type="button" class="btn btn--secondary btn--block" id="logout-btn">
+                <svg class="btn__icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                  <path d="M16 17l5-5-5-5"/>
+                  <path d="M21 12H9"/>
+                </svg>
+                Log Out
+              </button>
+            </div>
+          </div>
+        </section>
+      </div>
     </div>
 
-    <section class="marketplace-grid-section" aria-labelledby="profile-title">
-      <div class="empty-state">
-        <svg class="empty-state__icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-          <circle cx="12" cy="7" r="4"/>
-        </svg>
-        <h3 class="empty-state__title">Profile coming soon</h3>
-        <p class="empty-state__description">This feature is under development. You'll be able to manage your listings, favorites, and account settings.</p>
-        <a href="marketplace.html" class="btn btn--primary">Browse Marketplace</a>
+    <!-- Unauthenticated state -->
+    <div id="profile-unauthenticated" hidden>
+      <div class="auth-card">
+        <div class="empty-state" style="text-align: center; padding: var(--space-xl);">
+          <svg class="empty-state__icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin: 0 auto var(--space-md);">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+          <h3 class="empty-state__title">Please log in</h3>
+          <p class="empty-state__description">You need to be logged in to view your profile.</p>
+          <div style="display: flex; gap: var(--space-sm); justify-content: center; flex-wrap: wrap;">
+            <a href="login.html" class="btn btn--primary">Log In</a>
+            <a href="signup.html" class="btn btn--secondary">Sign Up</a>
+          </div>
+        </div>
       </div>
-    </section>
+    </div>
   </main>
 
   <footer class="footer" role="contentinfo">
@@ -104,5 +243,7 @@
     </nav>
     <p class="footer__copyright">&copy; 2026 ReDeal. All rights reserved.</p>
   </footer>
+
+  <script type="module" src="js/pages/Profile.js"></script>
 </body>
 </html>

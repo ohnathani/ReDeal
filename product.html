@@ -25,6 +25,7 @@
         <span class="product-detail-header__back-text">Back</span>
       </a>
       <span class="product-detail-header__title">Product Details</span>
+      <div class="header__auth"></div>
       <button class="product-detail-header__share" aria-label="Share product">
         <svg class="icon icon--md" width="24" height="24" viewBox="0 0 24 24"
              fill="none" stroke="currentColor" stroke-width="2"
@@ -99,6 +100,10 @@
     <p class="footer__copyright">&copy; 2026 ReDeal. All rights reserved.</p>
   </footer>
 
+  <script type="module">
+  import { initHeader } from './js/components/Header.js';
+  initHeader({});
+</script>
   <script type="module" src="js/pages/ProductDetail.js"></script>
 </body>
 </html>
