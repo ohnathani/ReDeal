@@ -8,7 +8,7 @@ import { onReady, delegate } from '../utils/events.js';
 import { getProduct } from '../data/products.js';
 import { getCategoryName, getConditionName } from '../data/categories.js';
 import { isFavorite as isFavoriteUtil, toggleFavorite } from '../utils/favorites.js';
-import { Modal } from '../components/Modal.js';
+import { Modal, alert } from '../components/Modal.js';
 
 let currentProduct = null;
 let currentImageIndex = 0;
@@ -78,8 +78,23 @@ async function shareProduct() {
     showToast('Link copied to clipboard!');
   } catch (err) {
     console.warn('Clipboard write failed:', err);
-    // Final fallback: prompt user to copy manually
-    prompt('Copy this link:', window.location.href);
+    // Final fallback: show modal with link to copy
+    const modal = new Modal({
+      title: 'Share Link',
+      content: `
+        <p style="margin-bottom: var(--space-md); color: var(--color-text-secondary);">
+          Unable to copy automatically. Please copy the link below:
+        </p>
+        <div class="form-group">
+          <input type="text" class="form-input" value="${window.location.href}" readonly onclick="this.select()" style="font-family: var(--font-mono); font-size: var(--text-sm);">
+        </div>
+        <p class="form-hint">Click the link to select all, then press Ctrl+C (Cmd+C on Mac) to copy.</p>
+      `,
+      actions: [
+        { label: 'Close', variant: 'btn--primary', primary: true },
+      ],
+    });
+    modal.open();
   }
 }
 
@@ -157,7 +172,7 @@ function renderProduct(product) {
             class="gallery__thumb gallery__thumb--active"
             role="tab"
             aria-selected="true"
-            aria-label="Image 1 of 1"
+            aria-label="${escapeHtml(product.title)}"
             data-index="0"
           >
             <img src="${escapeHtml(product.image)}" alt="" loading="lazy">
@@ -378,6 +393,15 @@ function setupEventListeners() {
       if (placeholder) placeholder.hidden = false;
     });
   }
+
+  // Thumbnail error handling - match main image fallback behavior
+  $$('.gallery__thumb img').forEach(thumbImg => {
+    thumbImg.addEventListener('error', () => {
+      // Hide the broken thumbnail image, the button will still be clickable but show nothing
+      thumbImg.hidden = true;
+      thumbImg.style.display = 'none';
+    });
+  });
 }
 
 /**
@@ -454,11 +478,18 @@ function handleMessageSeller(event, button) {
     `,
     actions: [
       { label: 'Cancel', variant: 'btn--secondary' },
-      { label: 'Send Message', variant: 'btn--primary', primary: true, handler: (modalInstance) => {
+      { label: 'Send Message', variant: 'btn--primary', primary: true, handler: async (modalInstance) => {
         const messageInput = modalInstance.modal.querySelector('#message-input');
         if (messageInput && messageInput.value.trim()) {
           console.log('Message would be sent:', messageInput.value.trim());
-          alert('Message sent! (Prototype - no actual message sent)');
+          // Close the current modal first
+          modalInstance.close();
+          // Show confirmation alert using Modal's alert helper
+          await alert({
+            title: 'Message Sent',
+            message: 'Message sent! (Prototype - no actual message sent)',
+            label: 'OK',
+          });
           return true;
         }
         return false;
@@ -514,12 +545,19 @@ function handleMakeOffer(event, button) {
     `,
     actions: [
       { label: 'Cancel', variant: 'btn--secondary' },
-      { label: 'Submit Offer', variant: 'btn--primary', primary: true, handler: (modalInstance) => {
+      { label: 'Submit Offer', variant: 'btn--primary', primary: true, handler: async (modalInstance) => {
         const offerInput = modalInstance.modal.querySelector('#offer-input');
         if (offerInput && offerInput.value.trim()) {
           const offer = parseInt(offerInput.value, 10);
           console.log('Offer submitted:', offer);
-          alert(`Offer of ₱${offer.toLocaleString()} submitted! (Prototype - no actual offer sent)`);
+          // Close the current modal first
+          modalInstance.close();
+          // Show confirmation alert using Modal's alert helper
+          await alert({
+            title: 'Offer Submitted',
+            message: `Offer of ₱${offer.toLocaleString()} submitted! (Prototype - no actual offer sent)`,
+            label: 'OK',
+          });
           return true;
         }
         return false;

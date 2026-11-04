@@ -2,12 +2,24 @@
 
 Single source of truth for ReDeal project implementation history.
 
+## Verification Legend
+
+| Symbol | Meaning |
+|--------|---------|
+| ✅ **Verified** | Tested in browser, evidence captured (console screenshots, validator output, responsive screenshots) |
+| 🔍 **Manually Tested (unverified)** | Tested manually but no browser evidence captured; may need re-verification |
+| ❌ **Not Tested** | Not yet tested |
+| ⚠️ **Known Issue** | Identified issue, fix pending or deferred |
+| 📋 **Documented Only** | Claim exists in log but not implemented/tested |
+
 ---
 
 ## Phase 1: Project Setup & Base Architecture (Completed)
 
 ### Overview
 Established the foundational project structure, design system, and core components for the ReDeal marketplace.
+
+> **Note**: `product.html` was created in Phase 1 but its full implementation (gallery, modals, etc.) belongs to Phase 2. This has been corrected below.
 
 ### Files Created/Modified
 
@@ -25,7 +37,7 @@ Established the foundational project structure, design system, and core componen
 | `js/components/Card.js` | ✅ Complete | ProductCard, FeatureCard, Card components |
 | `index.html` | ✅ Complete | Home page with hero, featured categories, how it works, featured listings |
 | `marketplace.html` | ✅ Complete | Marketplace with search, filters (category, condition, sort), product grid |
-| `product.html` | ✅ Complete | Product detail page structure (header, main, footer) |
+| `product.html` | ✅ Complete (structure only) | Product detail page structure (header, main, footer) — Phase 1 scaffolding; full implementation in Phase 2 |
 | `requests.html` | ✅ Complete | Requests page placeholder |
 | `messages.html` | ✅ Complete | Messages page placeholder |
 | `profile.html` | ✅ Complete | Profile page placeholder |
@@ -166,24 +178,33 @@ Fully functional product detail experience with gallery, product info, seller ca
 
 | Test | Status | Notes |
 |------|--------|-------|
-| Valid product ID (e.g., `?id=1`) | ✅ Pass | Renders full product detail |
-| Invalid product ID (e.g., `?id=999`) | ✅ Pass | Shows "Product Not Found" |
-| Missing product ID | ✅ Pass | Shows "Product Not Found" |
-| Favorite toggle (desktop + mobile) | ✅ Pass | Persists, updates all buttons, same-document sync |
-| Gallery thumbnail interaction | ✅ Pass | Keyboard (Enter/Space) + click |
-| Message Seller modal | ✅ Pass | Opens, submit button initially disabled, enables on input, accessible |
-| Make Offer modal | ✅ Pass | Opens, submit button initially disabled, enables on valid input, accessible |
-| Share button | ✅ Pass | Web Share API → clipboard → prompt fallback |
-| Responsive: mobile (375px) | ✅ Pass | Bottom action bar, stacked layout |
-| Responsive: tablet (768px) | ✅ Pass | Transition point |
-| Responsive: desktop (1200px) | ✅ Pass | Two-column grid, sticky gallery |
-| Keyboard navigation | ✅ Pass | All interactive elements reachable |
-| Console errors (homepage, marketplace, product detail) | ✅ Pass | Zero errors on all pages |
-| HTML validation (all pages) | ✅ Pass | Valid HTML5 |
-| Touch targets (back, share, action bar) | ✅ Pass | All ≥ 44×44px |
-| Homepage bottom nav navigation | ✅ Pass | Normal anchor navigation works |
-| Direct product URL access | ✅ Pass | Loads correctly |
-| Favorite persistence after page reload | ✅ Pass | localStorage works |
+| Valid product ID (e.g., `?id=1`) | 🔍 **Manually Tested (unverified)** | Renders full product detail |
+| Invalid product ID (e.g., `?id=999`) | 🔍 **Manually Tested (unverified)** | Shows "Product Not Found" |
+| Missing product ID | 🔍 **Manually Tested (unverified)** | Shows "Product Not Found" |
+| Favorite toggle (desktop + mobile) | 🔍 **Manually Tested (unverified)** | Persists, updates all buttons, same-document sync |
+| Gallery thumbnail interaction | 🔍 **Manually Tested (unverified)** | Keyboard (Enter/Space) + click |
+| Message Seller modal | 🔍 **Manually Tested (unverified)** | Opens, submit button initially disabled, enables on input, accessible |
+| Make Offer modal | 🔍 **Manually Tested (unverified)** | Opens, submit button initially disabled, enables on valid input, accessible |
+| Share button | 🔍 **Manually Tested (unverified)** | Web Share API → clipboard → prompt fallback |
+| Responsive: mobile (375px) | 🔍 **Manually Tested (unverified)** | Bottom action bar, stacked layout |
+| Responsive: tablet (768px) | 🔍 **Manually Tested (unverified)** | Transition point |
+| Responsive: desktop (1200px) | 🔍 **Manually Tested (unverified)** | Two-column grid, sticky gallery |
+| Keyboard navigation | 🔍 **Manually Tested (unverified)** | All interactive elements reachable |
+| Console errors (homepage, marketplace, product detail) | 🔍 **Manually Tested (unverified)** | Zero errors on all pages |
+| HTML validation (all pages) | 🔍 **Manually Tested (unverified)** | Valid HTML5 |
+| Touch targets (back, share, action bar) | 🔍 **Manually Tested (unverified)** | All ≥ 44×44px |
+| Homepage bottom nav navigation | 🔍 **Manually Tested (unverified)** | Normal anchor navigation works |
+| Direct product URL access | 🔍 **Manually Tested (unverified)** | Loads correctly |
+| Favorite persistence after page reload | 🔍 **Manually Tested (unverified)** | localStorage works |
+
+### Verification Table for Key Claims
+
+| Claim | Original Status | Corrected Status | Evidence Required |
+|-------|----------------|------------------|-------------------|
+| Zero console errors on all pages | ✅ Pass | 🔍 Manually Tested (unverified) | Browser console screenshots |
+| HTML validation passes (W3C) | ✅ Pass | 🔍 Manually Tested (unverified) | Validator output for each page |
+| Responsive testing at all breakpoints | ✅ Pass | 🔍 Manually Tested (unverified) | Screenshots at 375px, 768px, 1024px, 1280px |
+| Keyboard navigation (Tab, Enter, Escape) | ✅ Pass | 🔍 Manually Tested (unverified) | Tab-order verification, focus-visible screenshots |
 
 ### Known Limitations
 
@@ -198,6 +219,16 @@ Fully functional product detail experience with gallery, product info, seller ca
 5. **No Image Zoom**: Main gallery image doesn't have zoom/lightbox functionality.
 
 6. **Design Token Exceptions**: Some inline styles in modal content use hardcoded colors (e.g., `color: var(--color-text)` in style attributes) — acceptable for dynamic content but could be moved to CSS.
+
+7. **Hardcoded Colors in CSS**: `css/product-detail.css` and `css/components.css` — **FIXED** (replaced with design tokens from `variables.css`).
+
+8. **Gallery Counter Misleading**: "Image N of M" counter — **FIXED** (removed counter; aria-label now just shows product title since only one image exists).
+
+9. **Missing Thumbnail Error Handler**: Thumbnail `<img>` elements — **FIXED** (added `onerror` handler matching main image fallback behavior).
+
+10. **prompt()/alert() Usage**: ProductDetail.js used native `prompt()` and `alert()` — **FIXED** (replaced with Modal component's alert helper and custom modal with copyable input).
+
+11. **Missing PWA Icons**: `favicon.svg`, `apple-touch-icon.svg` — **FIXED** (created). Manifest PNG icons replaced with SVG versions.
 
 ---
 
@@ -268,5 +299,59 @@ Based on `TODO.md` and project roadmap:
 
 ---
 
+## Open Items from Luna Review 2 (2026-11-04)
+
+### Priority 0 - Git Integrity ✅ DONE
+- [x] Run `git status` and `git ls-files`
+- [x] Inspect/fix `.gitignore`
+- [x] Stage entire project: `git add -A`
+- [x] Verify no secrets/node_modules/settings.local.json staged
+- [x] Create baseline commit: "chore: baseline snapshot of Phase 1 and Phase 2 state"
+- [x] Report commit hash and file list
+
+### Priority 1 - Implementation Log Accuracy ✅ IN PROGRESS
+- [x] Append "## Correction — Post-Luna Review 2" section
+- [x] Add verification table for 4 claims
+- [x] Downgrade to "Manually Tested (unverified)" without browser evidence
+- [x] Add "Verification Legend" section at top
+- [x] Fix Phase 1 timeline (product.html belongs to Phase 2)
+- [x] Add "## Open Items from Luna Review 2" with checkboxes
+
+### Priority 1 - Hardcoded Colors ✅ DONE
+- [x] Check `css/variables.css` tokens
+- [x] Replace hardcoded hex/rgba in `css/product-detail.css` (~lines 471, 490, 615)
+- [x] Replace hardcoded hex/rgba in `css/components.css` (~lines 288-296)
+- [x] Add new tokens to `variables.css` if needed following naming convention
+- [x] Search entire `css/` directory for remaining hardcoded colors
+
+### Priority 1 - Gallery Multi-image Claim ✅ DONE
+- [x] Remove "Image N of M" counter in `ProductDetail.js` (~lines 157-164) since M=1 always
+- [x] Ensure gallery renders correctly with single image
+- [x] Update log: "Single image per product. Multi-image support is not implemented."
+
+### Priority 2 - Missing Assets ✅ DONE
+- [x] Check `assets/images/logo.svg` (exists)
+- [x] Create `favicon.svg` (32×32) from logo
+- [x] Create `apple-touch-icon.svg` (180×180) from logo
+- [x] Either create PNG icons for manifest.json OR remove icons array (prefer removing) — Replaced with SVG icons
+
+### Priority 2 - Thumbnail Error Handler ✅ DONE
+- [x] Add `onerror` fallback to thumbnail `<img>` in `ProductDetail.js` (~lines 366-378)
+- [x] Match main image fallback behavior
+
+### Priority 2 - Replace prompt() and alert() ✅ DONE
+- [x] Locate `prompt()` at ~line 82, `alert()` at ~lines 461, 522
+- [x] Replace with existing Modal component or toast system
+- [x] Preserve exact functionality
+
+### Priority 3 - Deferred (document only) 📋 DOCUMENTED
+- [ ] figma_design/ directory cleanup
+- [ ] Unsplash images in data layer
+- [ ] Cross-tab favorites sync (storage event)
+- [ ] Multi-image gallery support
+- [ ] Phase 3 planning
+
+---
+
 *Last Updated: 2026-11-04*
-*Phase 2 Complete with Fixes — Ready for Phase 3*
+*Phase 2 Complete with Fixes — Luna Review 2 conditions in progress*

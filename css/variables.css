@@ -35,6 +35,11 @@
   --color-warning: #A66B00;
   --color-error: #DC3545;
 
+  /* === Status Color Backgrounds (light variants for badges/alerts) === */
+  --color-success-bg: #E8F7F0;
+  --color-warning-bg: #FFF8E1;
+  --color-error-bg: #FDEDEA;
+
   /* === Spacing — 4px base scale === */
   --space-xs: 0.25rem;  /* 4px */
   --space-sm: 0.5rem;   /* 8px */
@@ -90,6 +95,10 @@
   --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
   --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
   --shadow-focus: 0 0 0 3px rgb(94 23 235 / 0.3);
+  --shadow-action-bar: 0 -4px 12px rgb(0 0 0 / 0.05);
+
+  /* === Overlay/Backdrop === */
+  --overlay-backdrop: rgba(0, 0, 0, 0.5);
 
   /* === Transitions === */
   --transition-fast: 100ms ease;
