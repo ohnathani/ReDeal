@@ -405,12 +405,19 @@ function setupEventListeners() {
   const mainImage = $('.gallery__main-image');
   const placeholder = $('.gallery__placeholder');
 
+  console.log('Gallery main image:', mainImage);
+  console.log('Image src:', mainImage?.src);
+  console.log('Image complete:', mainImage?.complete);
+  console.log('Image naturalWidth:', mainImage?.naturalWidth);
+
   if (mainImage) {
     const handleLoad = () => {
+      console.log('Image loaded successfully');
       mainImage.classList.remove('gallery__main-image--loading');
       if (placeholder) placeholder.hidden = true;
     };
     const handleError = () => {
+      console.error('Image failed to load:', mainImage.src);
       mainImage.classList.add('gallery__main-image--error');
       mainImage.hidden = true;
       if (placeholder) placeholder.hidden = false;
