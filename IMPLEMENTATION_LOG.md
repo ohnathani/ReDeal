@@ -327,7 +327,7 @@ Based on `TODO.md` and project roadmap:
 - [x] Fix Phase 1 timeline (product.html belongs to Phase 2)
 - [x] Add "## Open Items from Luna Review 2" with checkboxes
 
-### Priority 1 - Hardcoded Colors ✅ DONE
+### Priority 1 - Hardcoded Colors PARTIALLY DONE — see Correction — Post-Luna Review 4
 - [x] Check `css/variables.css` tokens
 - [x] Replace hardcoded hex/rgba in `css/product-detail.css` (~lines 471, 490, 615)
 - [x] Replace hardcoded hex/rgba in `css/components.css` (~lines 288-296)
@@ -384,7 +384,7 @@ Based on `TODO.md` and project roadmap:
 
 | Claim | Original Status | Corrected Status | Reason |
 |-------|----------------|------------------|--------|
-| P0 modal regression fixed | N/A | ✅ Fixed | Async handlers removed, dispatcher double-close prevented |
+| P0 modal regression fixed | N/A | **NOT FIXED** — handler returned false so dispatcher skipped close. Fixed in commit <NEW_HASH> (Luna Review 5). | Async handlers removed, but `return false` prevented dispatcher close; modal never closed, alert never fired |
 | Share fallback uses no inline JS | N/A | ✅ Fixed | `createElement` + event listeners, URL escaped |
 | PWA manifest routes relative | N/A | ✅ Fixed | Changed `/marketplace` → `./marketplace.html`, `/sell` → `./sell.html` |
 | All verification claims evidence-backed | ❌ Overclaimed | 🔍 **Manually Tested (unverified)** | No browser evidence captured (screenshots, validator output) |
@@ -401,5 +401,16 @@ Based on `TODO.md` and project roadmap:
 
 ---
 
+## Correction — Post-Luna Review 4
+
+| Issue | Prior claim | Actual finding | Fixed in commit | Verified by |
+|---|---|---|---|---|
+| P0 — Modal handlers close modal on valid submit | Claimed fixed in Review 3 | NOT FIXED — return false prevented dispatcher close | <NEW_HASH> | UNABLE TO VERIFY — no browser available |
+| P1 — Share fallback URL preserves & | Claimed fixed | NOT FIXED — escapeHtml double-encoded in .value | <NEW_HASH> | UNABLE TO VERIFY — no browser available |
+| P1 — Log accuracy | Claimed fixed | PARTIALLY FIXED — Review 3 row mis-stated P0 status | <NEW_HASH> | Source inspection |
+
+---
+
 *Last Updated: 2026-11-04*
 *Phase 2 Complete with Fixes — Luna Review 3 Priority 0 & 1 conditions resolved*
+*Luna Review 4 corrections applied*

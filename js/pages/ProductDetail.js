@@ -94,11 +94,10 @@ function handleShare(event, button) {
  * Show share fallback modal with copyable link (no inline onclick)
  */
 function showShareFallbackModal() {
-  const escapedUrl = escapeHtml(window.location.href);
   const input = createElement('input', {
     type: 'text',
     class: 'form-input',
-    value: escapedUrl,
+    value: window.location.href,
     readonly: true,
     style: 'font-family: var(--font-mono); font-size: var(--text-sm);'
   });
@@ -504,20 +503,22 @@ function handleMessageSeller(event, button) {
     actions: [
       { label: 'Cancel', variant: 'btn--secondary' },
       { label: 'Send Message', variant: 'btn--primary', primary: true, handler: (modalInstance) => {
-        const messageInput = modalInstance.modal.querySelector('#message-input');
-        if (messageInput && messageInput.value.trim()) {
-          console.log('Message would be sent:', messageInput.value.trim());
-          // Do NOT close here — let Modal dispatcher handle it
-          // Sequence alert AFTER modal closes using onClose callback
-          modalInstance.onClose = () => {
-            alert({
-              title: 'Message Sent',
-              message: 'Message sent! (Prototype - no actual message sent)',
-              label: 'OK',
-            });
-          };
-          return false; // Return false to prevent dispatcher from closing
+        const input = modalInstance.modal.querySelector('textarea');
+        const text = (input?.value ?? '').trim();
+
+        if (!text) {
+          return false;
         }
+
+        modalInstance.close();
+
+        requestAnimationFrame(() => {
+          alert({
+            title: 'Message Sent',
+            message: 'Your message has been sent to the seller. (Prototype — no backend.)',
+          });
+        });
+
         return false;
       }}
     ],
@@ -572,21 +573,23 @@ function handleMakeOffer(event, button) {
     actions: [
       { label: 'Cancel', variant: 'btn--secondary' },
       { label: 'Submit Offer', variant: 'btn--primary', primary: true, handler: (modalInstance) => {
-        const offerInput = modalInstance.modal.querySelector('#offer-input');
-        if (offerInput && offerInput.value.trim()) {
-          const offer = parseInt(offerInput.value, 10);
-          console.log('Offer submitted:', offer);
-          // Do NOT close here — let Modal dispatcher handle it
-          // Sequence alert AFTER modal closes using onClose callback
-          modalInstance.onClose = () => {
-            alert({
-              title: 'Offer Submitted',
-              message: `Offer of ₱${offer.toLocaleString()} submitted! (Prototype - no actual offer sent)`,
-              label: 'OK',
-            });
-          };
-          return false; // Return false to prevent dispatcher from closing
+        const input = modalInstance.modal.querySelector('input[type="number"], input');
+        const raw = (input?.value ?? '').trim();
+        const amount = Number(raw);
+
+        if (!raw || !Number.isFinite(amount) || amount <= 0) {
+          return false;
         }
+
+        modalInstance.close();
+
+        requestAnimationFrame(() => {
+          alert({
+            title: 'Offer Sent',
+            message: `Your offer of ₱${amount.toLocaleString()} has been sent. (Prototype — no backend.)`,
+          });
+        });
+
         return false;
       }}
     ],
