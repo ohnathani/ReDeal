@@ -156,10 +156,18 @@ function getFieldValue(fieldName) {
 }
 
 /**
+ * Get error element ID for a field (handles kebab-case for imageUrl)
+ */
+function errorIdFor(fieldName) {
+  return fieldName === 'imageUrl' ? 'image-url-error' : `${fieldName}-error`;
+}
+
+/**
  * Show error for a field
  */
 function showError(fieldName, message) {
-  const errorEl = $(`#${fieldName}-error`);
+  const errorId = errorIdFor(fieldName);
+  const errorEl = $(`#${errorId}`);
   const inputEl = $(fieldSelectors[fieldName]);
 
   if (errorEl) {
@@ -170,7 +178,7 @@ function showError(fieldName, message) {
   if (inputEl) {
     inputEl.style.borderColor = 'var(--color-error)';
     inputEl.setAttribute('aria-invalid', 'true');
-    inputEl.setAttribute('aria-describedby', `${fieldName}-error`);
+    inputEl.setAttribute('aria-describedby', errorId);
   }
 }
 
@@ -178,7 +186,8 @@ function showError(fieldName, message) {
  * Clear error for a field
  */
 function clearError(fieldName) {
-  const errorEl = $(`#${fieldName}-error`);
+  const errorId = errorIdFor(fieldName);
+  const errorEl = $(`#${errorId}`);
   const inputEl = $(fieldSelectors[fieldName]);
 
   if (errorEl) {
