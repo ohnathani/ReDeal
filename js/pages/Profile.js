@@ -143,7 +143,7 @@ async function loadStats() {
   const statReviews = $('#stat-reviews');
 
   if (statListings) statListings.textContent = userProducts.length;
-  if (statFavorites) statFavorites.textContent = favorites.length;
+  if (statFavorites) statFavorites.textContent = favorites.size;
   if (statReviews) statReviews.textContent = '0'; // Placeholder
 }
 
