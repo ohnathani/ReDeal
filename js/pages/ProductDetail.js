@@ -179,7 +179,7 @@ function renderProduct(product) {
         <div class="gallery__main" role="img" aria-label="${escapeHtml(product.title)} main image">
           <img
             class="gallery__main-image"
-            src="${escapeHtml(product.image)}"
+            src="${product.image}"
             alt="${escapeHtml(product.title)}"
             loading="eager"
           >
@@ -199,7 +199,7 @@ function renderProduct(product) {
             aria-label="${escapeHtml(product.title)}"
             data-index="0"
           >
-            <img src="${escapeHtml(product.image)}" alt="" loading="lazy">
+            <img src="${product.image}" alt="" loading="lazy">
           </button>
         </div>
       </section>
