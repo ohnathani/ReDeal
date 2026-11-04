@@ -641,12 +641,13 @@
 @media (min-width: 768px) {
   .product-detail-grid {
     display: grid;
-    grid-template-columns: 1fr 400px;
+    grid-template-columns: minmax(0, 1fr) 400px;
     gap: var(--space-xl);
     align-items: start;
   }
   .product-gallery {
     position: sticky;
     top: calc(var(--space-lg) + 60px); /* header height + padding */
+    min-width: 0;
   }
 }
