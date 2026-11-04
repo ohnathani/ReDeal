@@ -182,6 +182,7 @@ function renderProduct(product) {
             src="${product.image}"
             alt="${escapeHtml(product.title)}"
             loading="eager"
+            crossorigin="anonymous"
           >
           <div class="gallery__placeholder" hidden>
             <svg class="icon icon--xl" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -199,7 +200,7 @@ function renderProduct(product) {
             aria-label="${escapeHtml(product.title)}"
             data-index="0"
           >
-            <img src="${product.image}" alt="" loading="lazy">
+            <img src="${product.image}" alt="" loading="lazy" crossorigin="anonymous">
           </button>
         </div>
       </section>
