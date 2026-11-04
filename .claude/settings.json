@@ -1,0 +1,41 @@
+{
+  "permissions": {
+    "allow": [
+      "Read",
+      "Write",
+      "Edit",
+      "Glob",
+      "Grep",
+      "Bash",
+      "Task",
+      "WebFetch",
+      "WebSearch"
+    ],
+    "deny": [
+      "Bash(rm -rf *)",
+      "Bash(rm -rf /*)",
+      "Bash(rm -rf ~*)",
+      "Bash(sudo *)",
+      "Bash(chmod 777 *)",
+      "Bash(chown *)",
+      "Bash(curl * | bash)",
+      "Bash(wget * | bash)",
+      "Bash(npm install *)",
+      "Bash(yarn install *)",
+      "Bash(pnpm install *)",
+      "Bash(git push --force *)",
+      "Bash(git reset --hard *)"
+    ]
+  },
+  "hooks": {
+    "preToolUse": [],
+    "postToolUse": [],
+    "userPromptSubmit": [],
+    "stop": [],
+    "subagentStop": [],
+    "preCompact": [],
+    "notification": []
+  },
+  "model": "claude-opus-5-5",
+  "env": {}
+}

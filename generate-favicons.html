@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Favicon Generator</title>
+  <style>
+    body { font-family: system-ui; padding: 2rem; max-width: 800px; margin: 0 auto; }
+    .size { display: inline-block; margin: 1rem; text-align: center; }
+    canvas { border: 1px solid #ddd; border-radius: 8px; background: #fafafa; }
+    button { padding: 0.75rem 1.5rem; font-size: 1rem; cursor: pointer; background: #5E17EB; color: white; border: none; border-radius: 6px; }
+    button:hover { background: #4710BD; }
+    h2 { color: #191818; }
+  </style>
+</head>
+<body>
+  <h1>ReDeal Favicon Generator</h1>
+  <p>Click "Download All" to save PNGs at each size. Then use an online tool (like <a href="https://www.favicon-generator.org/">favicon-generator.org</a>) to create <code>favicon.ico</code> from the PNGs.</p>
+
+  <div id="sizes"></div>
+
+  <button onclick="downloadAll()">Download All PNGs</button>
+
+  <script>
+    const sizes = [16, 32, 48, 64, 128, 180, 192, 512];
+    const container = document.getElementById('sizes');
+    const canvases = [];
+
+    // Load the SVG and draw at each size
+    fetch('assets/images/favicon.svg')
+      .then(r => r.text())
+      .then(svgText => {
+        const parser = new DOMParser();
+        const svgDoc = parser.parseFromString(svgText, 'image/svg+xml');
+        const svgElement = svgDoc.documentElement;
+        const svgData = new XMLSerializer().serializeToString(svgElement);
+        const svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+        const svgUrl = URL.createObjectURL(svgBlob);
+
+        const img = new Image();
+        img.onload = () => {
+          sizes.forEach(size => {
+            const canvas = document.createElement('canvas');
+            canvas.width = size;
+            canvas.height = size;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, size, size);
+            canvases.push({ size, canvas });
+
+            const div = document.createElement('div');
+            div.className = 'size';
+            div.innerHTML = `<strong>${size}×${size}</strong><br>`;
+            div.appendChild(canvas);
+            div.innerHTML += `<br><button onclick="download(${size})">Download ${size}×${size}</button>`;
+            container.appendChild(div);
+          });
+        };
+        img.src = svgUrl;
+      });
+
+    function download(size) {
+      const entry = canvases.find(c => c.size === size);
+      if (!entry) return;
+      const link = document.createElement('a');
+      link.download = `favicon-${size}x${size}.png`;
+      link.href = entry.canvas.toDataURL('image/png');
+      link.click();
+    }
+
+    function downloadAll() {
+      canvases.forEach(({ size, canvas }) => {
+        const link = document.createElement('a');
+        link.download = `favicon-${size}x${size}.png`;
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+      });
+    }
+  </script>
+</body>
+</html>

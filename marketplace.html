@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="ReDeal Marketplace — Browse second-hand items from trusted sellers">
+  <title>Marketplace — ReDeal</title>
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
+  <link rel="apple-touch-icon" href="assets/images/apple-touch-icon.svg">
+  <link rel="manifest" href="assets/manifest.json">
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+  <header class="header" role="banner">
+    <div class="header__topbar">
+      <a href="index.html" class="header__logo" aria-label="ReDeal Home">
+        <svg class="header__logo-icon" aria-hidden="true" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M16 2C8.268 2 2 8.268 2 16C2 23.732 8.268 30 16 30C23.732 30 30 23.732 30 16C30 8.268 23.732 2 16 2Z" fill="currentColor"/>
+          <path d="M16 6C21.5228 6 26 10.4772 26 16C26 21.5228 21.5228 26 16 26C10.4772 26 6 21.5228 6 16C6 10.4772 10.4772 6 16 6Z" fill="white"/>
+          <path d="M16 8C11.5817 8 8 11.5817 8 16C8 20.4183 11.5817 24 16 24C20.4183 24 24 20.4183 24 16C24 11.5817 20.4183 8 16 8Z" fill="currentColor"/>
+          <path d="M22 16C22 19.3137 19.3137 22 16 22C12.6863 22 10 19.3137 10 16C10 12.6863 12.6863 10 16 10C17.572 10 18.971 10.7891 19.9142 12H16V14H19.5V16H22V16C22 13.7909 20.2091 12 18 12C17.1716 12 16.3825 12.3536 15.8284 12.9076L18.1716 15.25L16 17.4221L13.8284 15.25L16.1716 12.9076C15.6175 12.3536 14.8284 12 14 12C11.7909 12 10 13.7909 10 16C10 18.2091 11.7909 20 14 20C15.1025 20 16.1255 19.5717 16.875 18.875L14.125 16.125L11.5779 18.6721C12.8959 19.696 14.5448 20 16 20C19.3137 20 22 17.3137 22 16Z" fill="white"/>
+        </svg>
+        <span class="header__logo-text">ReDeal</span>
+      </a>
+      <a href="sell.html" class="btn btn--primary header__new-listing" aria-label="Create new listing">
+        <svg class="btn__icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 5v14M5 12h14"/>
+        </svg>
+        <span>New Listing</span>
+      </a>
+    </div>
+    <div class="header__search" role="search">
+      <svg class="header__search-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"/>
+        <path d="M21 21l-4.35-4.35"/>
+      </svg>
+      <input type="search" class="header__search-input" id="search-input" placeholder="Search items, brands, or requests..." aria-label="Search items, brands, or requests">
+    </div>
+  </header>
+
+  <main id="main" class="main" role="main">
+    <div class="marketplace-header">
+      <h1 class="marketplace-title">Marketplace</h1>
+      <p class="marketplace-subtitle">Find great deals from trusted sellers</p>
+    </div>
+
+    <div class="marketplace-toolbar" role="search" aria-label="Marketplace filters">
+      <div class="filter-chips" id="filter-chips">
+        <div class="filter-group">
+          <label for="category-filter" class="visually-hidden">Category</label>
+          <select id="category-filter" class="filter-select" aria-label="Filter by category">
+            <option value="all">All Categories</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label for="condition-filter" class="visually-hidden">Condition</label>
+          <select id="condition-filter" class="filter-select" aria-label="Filter by condition">
+            <option value="all">All Conditions</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label for="sort-filter" class="visually-hidden">Sort by</label>
+          <select id="sort-filter" class="filter-select" aria-label="Sort results">
+            <option value="newest">Newest First</option>
+            <option value="oldest">Oldest First</option>
+            <option value="price-low">Price: Low to High</option>
+            <option value="price-high">Price: High to Low</option>
+          </select>
+        </div>
+      </div>
+      <div class="results-count" id="results-count" aria-live="polite"></div>
+    </div>
+
+    <section class="marketplace-grid-section" aria-labelledby="listings-title">
+      <h2 id="listings-title" class="visually-hidden">Product Listings</h2>
+      <div class="grid grid--2 grid--md-3" id="listings-grid" role="list">
+        <!-- Product cards rendered by JS -->
+      </div>
+      <div class="empty-state" id="empty-state" hidden>
+        <svg class="empty-state__icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <circle cx="11" cy="11" r="8"/>
+          <path d="M21 21l-4.35-4.35"/>
+        </svg>
+        <h3 class="empty-state__title">No listings found</h3>
+        <p class="empty-state__message" id="empty-message">Try adjusting your search or filters</p>
+        <button class="btn btn--secondary" id="clear-filters-btn">Clear all filters</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer" role="contentinfo">
+    <nav class="bottom-nav" aria-label="Primary navigation">
+      <a href="index.html" class="bottom-nav__item">
+        <svg class="bottom-nav__icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+          <path d="M9 22V12h6v10"/>
+        </svg>
+        <span>Home</span>
+      </a>
+      <a href="marketplace.html" class="bottom-nav__item bottom-nav__item--active" aria-current="page">
+        <svg class="bottom-nav__icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="9" cy="21" r="1"/>
+          <circle cx="20" cy="21" r="1"/>
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+        </svg>
+        <span>Marketplace</span>
+      </a>
+      <a href="requests.html" class="bottom-nav__item">
+        <svg class="bottom-nav__icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+          <path d="M14 2v6h6"/>
+          <path d="M16 13H8"/>
+          <path d="M16 17H8"/>
+          <path d="M10 9H8"/>
+        </svg>
+        <span>Requests</span>
+      </a>
+      <a href="messages.html" class="bottom-nav__item">
+        <svg class="bottom-nav__icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+        </svg>
+        <span>Messages</span>
+      </a>
+      <a href="profile.html" class="bottom-nav__item">
+        <svg class="bottom-nav__icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
+        </svg>
+        <span>Profile</span>
+      </a>
+    </nav>
+    <p class="footer__copyright">&copy; 2026 ReDeal. All rights reserved.</p>
+  </footer>
+
+  <script type="module" src="js/pages/Marketplace.js"></script>
+</body>
+</html>
