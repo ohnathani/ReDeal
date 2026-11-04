@@ -98,6 +98,13 @@ export function restoreSession() {
   const session = getSession();
   if (!session) return null;
 
+  // Validate session shape
+  if (!session?.token || !session.userId || !session.expiresAt) {
+    clearSession();
+    window.dispatchEvent(new CustomEvent('auth:logout', { detail: {} }));
+    return null;
+  }
+
   // Check expiry
   if (new Date(session.expiresAt) < new Date()) {
     clearSession();
