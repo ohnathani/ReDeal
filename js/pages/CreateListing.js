@@ -7,7 +7,7 @@ import { $, $$, createElement, escapeHtml } from '../utils/dom.js';
 import { onReady, delegate } from '../utils/events.js';
 import { categories, conditions, getCategoryName, getConditionName } from '../data/categories.js';
 import { products as allProducts } from '../data/products.js';
-import { addCreatedProduct, getCreatedProducts } from '../data/storage.js';
+import { addCreatedProduct, getCreatedProducts, getNextId } from '../data/storage.js';
 import { alert as showAlert, confirm as showConfirm } from '../components/Modal.js';
 
 let formDirty = false;
@@ -335,9 +335,8 @@ function buildProductObject() {
   const location = getFieldValue('location').trim() || 'Philippines';
   const imageUrl = getFieldValue('imageUrl').trim() || 'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=400&h=400&fit=crop';
 
-  // Generate next ID (max existing + 1)
-  const existingIds = allProducts.map(p => Number(p.id)).filter(n => !isNaN(n));
-  const nextId = String(Math.max(0, ...existingIds) + 1);
+  // Generate next ID using storage.getNextId with merged products array
+  const nextId = getNextId(allProducts);
 
   // Generate seller initials from "You"
   const sellerInitials = 'YU';

@@ -40,13 +40,14 @@ export function addCreatedProduct(product) {
 
 /**
  * Generate next available product ID (as string)
- * Considers both seed products (from products.js) and created products
+ * Considers both seed products and created products
+ * @param {Array} [existingProducts=[]] - Additional products to consider (e.g., merged array from products.js)
  * @returns {string} Next ID as string
  */
-export function getNextId() {
-  // Import seed products dynamically to avoid circular dependency
-  // We'll read from the merged products array in products.js instead
-  // This function is kept for API completeness; actual ID generation
-  // happens in CreateListing.js where we have access to the merged array
-  return '0'; // Placeholder - actual logic in CreateListing.js
+export function getNextId(existingProducts = []) {
+  const ids = [...existingProducts, ...getCreatedProducts()]
+    .map(product => Number(product.id))
+    .filter(Number.isFinite);
+
+  return String(Math.max(0, ...ids) + 1);
 }
