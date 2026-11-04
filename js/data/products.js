@@ -4,6 +4,7 @@
  */
 
 import { categories, conditions } from './categories.js';
+import { getCreatedProducts } from './storage.js';
 
 // Helper to parse price strings for sorting
 function parsePrice(priceStr) {
@@ -13,7 +14,7 @@ function parsePrice(priceStr) {
 
 // Sample product data — all prices in Philippine Peso (₱)
 // Each product includes createdAt timestamp for proper sorting
-export const products = [
+export const seedProducts = [
   {
     id: '1',
     title: 'Vintage Denim Jacket',
@@ -231,6 +232,10 @@ export const products = [
     defects: ['Case has minor scuff'],
   },
 ];
+
+// Merge seed products with created products (created first = newest)
+const createdProducts = getCreatedProducts();
+export const products = [...createdProducts, ...seedProducts];
 
 /**
  * Get a single product by ID

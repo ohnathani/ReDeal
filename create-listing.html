@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Create a new listing on ReDeal">
+  <title>Create Listing — ReDeal</title>
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/create-listing.css">
+  <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
+  <link rel="apple-touch-icon" href="assets/images/apple-touch-icon.svg">
+  <link rel="manifest" href="assets/manifest.json">
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+  <header class="create-listing-header" role="banner">
+    <div class="create-listing-header__inner">
+      <a href="marketplace.html" class="create-listing-header__back" aria-label="Back to Marketplace">
+        <svg class="icon icon--md" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M19 12H5M12 19l-7-7 7-7"/>
+        </svg>
+        <span class="create-listing-header__back-text">Back</span>
+      </a>
+      <h1 class="create-listing-header__title">Create Listing</h1>
+      <div style="width: 44px;"></div>
+    </div>
+  </header>
+
+  <main id="main" class="create-listing-main" role="main">
+    <form class="create-listing-form" id="create-listing-form" novalidate>
+      <div class="form-section">
+        <h2 class="form-section__title">Basic Information</h2>
+
+        <div class="form-group">
+          <label for="title" class="form-label">Title <span class="required" aria-hidden="true">*</span></label>
+          <input type="text" id="title" name="title" class="form-input" placeholder="e.g., Vintage Denim Jacket" required autocomplete="off" maxlength="80" aria-describedby="title-error title-hint">
+          <div id="title-error" class="form-error" role="alert" aria-live="polite" hidden></div>
+          <span id="title-hint" class="form-hint">5-80 characters</span>
+        </div>
+
+        <div class="form-group">
+          <label for="price" class="form-label">Price (₱) <span class="required" aria-hidden="true">*</span></label>
+          <div class="form-input-wrapper">
+            <span class="currency-prefix" aria-hidden="true">₱</span>
+            <input type="number" id="price" name="price" class="form-input" placeholder="e.g., 1450" required min="1" step="1" autocomplete="off" aria-describedby="price-error">
+          </div>
+          <div id="price-error" class="form-error" role="alert" aria-live="polite" hidden></div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="category" class="form-label">Category <span class="required" aria-hidden="true">*</span></label>
+            <select id="category" name="category" class="form-input form-select" required aria-describedby="category-error">
+              <option value="">Select category</option>
+            </select>
+            <div id="category-error" class="form-error" role="alert" aria-live="polite" hidden></div>
+          </div>
+          <div class="form-group">
+            <label for="condition" class="form-label">Condition <span class="required" aria-hidden="true">*</span></label>
+            <div class="radio-group" id="condition-group" role="radiogroup" aria-label="Condition" aria-describedby="condition-error">
+              <!-- Radio buttons rendered by JS -->
+            </div>
+            <div id="condition-error" class="form-error" role="alert" aria-live="polite" hidden></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h2 class="form-section__title">Details</h2>
+
+        <div class="form-group">
+          <label for="description" class="form-label">Description <span class="required" aria-hidden="true">*</span></label>
+          <textarea id="description" name="description" class="form-textarea" rows="5" placeholder="Describe your item in detail. Include brand, size, condition details, any defects, etc." required maxlength="1000" aria-describedby="description-error description-hint"></textarea>
+          <div id="description-error" class="form-error" role="alert" aria-live="polite" hidden></div>
+          <span id="description-hint" class="form-hint">20-1000 characters</span>
+        </div>
+
+        <div class="form-group">
+          <label for="location" class="form-label">Location</label>
+          <input type="text" id="location" name="location" class="form-input" placeholder="e.g., Makati, Metro Manila" autocomplete="address-line2" aria-describedby="location-hint">
+          <span id="location-hint" class="form-hint">Optional. Defaults to "Philippines".</span>
+        </div>
+
+        <div class="form-group">
+          <label for="image-url" class="form-label">Image URL</label>
+          <input type="url" id="image-url" name="imageUrl" class="form-input" placeholder="https://example.com/image.jpg" autocomplete="off" aria-describedby="image-url-error image-url-hint">
+          <div id="image-url-error" class="form-error" role="alert" aria-live="polite" hidden></div>
+          <span id="image-url-hint" class="form-hint">Optional. Must be a valid http/https URL.</span>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn btn--secondary btn--lg" id="cancel-btn">Cancel</button>
+        <button type="submit" class="btn btn--primary btn--lg" id="submit-btn" disabled aria-disabled="true">Create Listing</button>
+      </div>
+    </form>
+  </main>
+
+  <footer class="footer" role="contentinfo">
+    <nav class="bottom-nav" aria-label="Primary navigation">
+      <a href="index.html" class="bottom-nav__item">
+        <svg class="bottom-nav__icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+          <path d="M9 22V12h6v10"/>
+        </svg>
+        <span>Home</span>
+      </a>
+      <a href="marketplace.html" class="bottom-nav__item">
+        <svg class="bottom-nav__icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="9" cy="21" r="1"/>
+          <circle cx="20" cy="21" r="1"/>
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+        </svg>
+        <span>Marketplace</span>
+      </a>
+      <a href="requests.html" class="bottom-nav__item">
+        <svg class="bottom-nav__icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+          <path d="M14 2v6h6"/>
+          <path d="M16 13H8"/>
+          <path d="M16 17H8"/>
+          <path d="M10 9H8"/>
+        </svg>
+        <span>Requests</span>
+      </a>
+      <a href="messages.html" class="bottom-nav__item">
+        <svg class="bottom-nav__icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+        </svg>
+        <span>Messages</span>
+      </a>
+      <a href="profile.html" class="bottom-nav__item">
+        <svg class="bottom-nav__icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
+        </svg>
+        <span>Profile</span>
+      </a>
+    </nav>
+    <p class="footer__copyright">&copy; 2026 ReDeal. All rights reserved.</p>
+  </footer>
+
+  <script type="module" src="js/pages/CreateListing.js"></script>
+</body>
+</html>

@@ -186,34 +186,9 @@ function init() {
   // Set up New Listing button
   const newListingBtn = $('.header__new-listing');
   if (newListingBtn) {
-    newListingBtn.addEventListener('click', () => {
-      console.log('Create new listing');
-      // Show create listing modal or navigate
-      const modal = new Modal({
-        title: 'Create New Listing',
-        content: `
-          <p style="color: var(--color-text); margin-bottom: var(--space-md);">Choose what you want to do:</p>
-          <div style="display: flex; flex-direction: column; gap: var(--space-sm);">
-            <button class="btn btn--primary" data-action="sell">Sell an Item</button>
-            <button class="btn btn--secondary" data-action="request">Post a Request</button>
-          </div>
-        `,
-        actions: [],
-      });
-      modal.open();
-
-      // Handle modal buttons
-      setTimeout(() => {
-        delegate(modal.modal, '[data-action]', 'click', (e, btn) => {
-          const action = btn.dataset.action;
-          modal.close();
-          if (action === 'sell') {
-            console.log('Navigate to sell flow');
-          } else if (action === 'request') {
-            console.log('Navigate to request flow');
-          }
-        });
-      }, 0);
+    newListingBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      window.location.href = 'create-listing.html';
     });
   }
 

@@ -971,6 +971,41 @@
   font-weight: 500;
 }
 
+/* === FAB (Floating Action Button) === */
+.fab {
+  position: fixed;
+  bottom: var(--space-xl);
+  right: var(--space-xl);
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-full);
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-lg);
+  text-decoration: none;
+  z-index: var(--z-fixed);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast);
+}
+.fab:hover {
+  transform: scale(1.05);
+  box-shadow: var(--shadow-xl);
+  background: var(--color-primary-hover);
+  color: var(--color-on-primary);
+  text-decoration: none;
+}
+.fab:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 4px;
+}
+.fab__icon {
+  width: 24px;
+  height: 24px;
+  stroke-width: 2.5;
+}
+
 /* === Icon === */
 .icon {
   display: inline-flex;
