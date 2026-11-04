@@ -297,6 +297,16 @@ Based on `TODO.md` and project roadmap:
 | 9 | Design token checklist claimed full compliance | ✅ Corrected | `IMPLEMENTATION_LOG.md` | Noted inline style exceptions in modal content |
 | 10 | Console errors claimed zero without full testing | ✅ Corrected | `IMPLEMENTATION_LOG.md` | Tested all pages; confirmed zero errors |
 
+## Issues Fixed (Luna's Review 2 - 2026-11-04)
+
+| # | Issue | Status | Files Modified | Fix Summary |
+|---|-------|--------|----------------|-------------|
+| 11 | Hardcoded colors in CSS (components.css, product-detail.css) | ✅ Fixed | `css/variables.css`, `css/components.css`, `css/product-detail.css` | Added tokens (--color-success-bg, --color-warning-bg, --color-error-bg, --shadow-action-bar, --overlay-backdrop), replaced all hardcoded hex/rgba |
+| 12 | Misleading gallery counter "Image N of M" | ✅ Fixed | `js/pages/ProductDetail.js` | Removed counter; aria-label now shows product title only |
+| 13 | Missing PWA icons (favicon.svg, apple-touch-icon.svg, manifest icons) | ✅ Fixed | `assets/images/favicon.svg`, `assets/images/apple-touch-icon.svg`, `assets/images/icon-192.svg`, `assets/images/icon-512.svg`, `assets/manifest.json` | Created SVG icons, updated manifest to use SVG instead of missing PNGs |
+| 14 | Missing thumbnail error handler | ✅ Fixed | `js/pages/ProductDetail.js` | Added onerror handler matching main image fallback |
+| 15 | Native prompt()/alert() usage | ✅ Fixed | `js/pages/ProductDetail.js` | Replaced with Modal component's alert() helper and custom modal with copyable input |
+
 ---
 
 ## Open Items from Luna Review 2 (2026-11-04)
@@ -309,7 +319,7 @@ Based on `TODO.md` and project roadmap:
 - [x] Create baseline commit: "chore: baseline snapshot of Phase 1 and Phase 2 state"
 - [x] Report commit hash and file list
 
-### Priority 1 - Implementation Log Accuracy ✅ IN PROGRESS
+### Priority 1 - Implementation Log Accuracy ✅ DONE
 - [x] Append "## Correction — Post-Luna Review 2" section
 - [x] Add verification table for 4 claims
 - [x] Downgrade to "Manually Tested (unverified)" without browser evidence
@@ -354,4 +364,4 @@ Based on `TODO.md` and project roadmap:
 ---
 
 *Last Updated: 2026-11-04*
-*Phase 2 Complete with Fixes — Luna Review 2 conditions in progress*
+*Phase 2 Complete with Fixes — Luna Review 2 Priority 0, 1, 2 conditions resolved*
