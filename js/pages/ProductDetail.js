@@ -377,7 +377,7 @@ function showNotFound() {
  */
 function setupEventListeners() {
   // Listen for favorites changes from other pages
-  window.addEventListener('favorites-changed', handleFavoritesChanged);
+  window.addEventListener('favorites:changed', handleFavoritesChanged);
 
   // Share button
   delegate(document, '.product-detail-header__share', 'click', handleShare);

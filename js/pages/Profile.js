@@ -235,7 +235,7 @@ function setupEventListeners() {
   logoutBtn?.addEventListener('click', handleLogout);
 
   // Listen for favorites changes
-  window.addEventListener('favorites-changed', () => {
+  window.addEventListener('favorites:changed', () => {
     loadStats();
     loadFavorites();
   });

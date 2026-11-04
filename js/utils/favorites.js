@@ -88,7 +88,7 @@ export function toggleFavorite(id, userId) {
   setFavorites(favorites, userId);
 
   // Dispatch custom event for UI updates (includes userId for cross-tab sync)
-  window.dispatchEvent(new CustomEvent('favorites-changed', {
+  window.dispatchEvent(new CustomEvent('favorites:changed', {
     detail: { id, isFavorite: newState, userId }
   }));
 
