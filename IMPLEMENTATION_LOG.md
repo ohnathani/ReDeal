@@ -416,3 +416,29 @@ Based on `TODO.md` and project roadmap:
 *Last Updated: 2026-11-04*
 *Phase 2 Complete with Fixes — Luna Review 3 Priority 0 & 1 conditions resolved*
 *Luna Review 4 corrections applied*
+
+---
+
+## Browser Verification — Phase 2 Close-Out (BLOCKED)
+
+Date: 2026-11-04
+Browser: UNAVAILABLE — no browser or automation tools in execution environment
+Tester: Product Owner
+Environment: Local HTTP server at http://localhost:5500 (server verified running)
+
+| Test | Result |
+|------|--------|
+| 1. Product Detail loads | BLOCKED — Browser unavailable |
+| 2. Message Seller empty submit rejected | BLOCKED — Browser unavailable |
+| 3. Message Seller valid submit closes + alerts | BLOCKED — Browser unavailable |
+| 4. Focus restoration | BLOCKED — Browser unavailable |
+| 5. Make Offer empty submit rejected | BLOCKED — Browser unavailable |
+| 6. Make Offer valid submit closes + alerts | BLOCKED — Browser unavailable |
+| 7. Share fallback preserves & in URL | BLOCKED — Browser unavailable |
+| 8. Console clean on Home / Marketplace / Product Detail | BLOCKED — Browser unavailable |
+| 9. Favorites persist across navigation + reload | BLOCKED — Browser unavailable |
+| 10. Responsive at 375/768/1200px | BLOCKED — Browser unavailable |
+
+Phase 2 verification is BLOCKED pending browser access. All source fixes for Luna Review 3 P0/P1 conditions are complete and committed (cf5d882). Static verification (source inspection, syntax, git history) passes.
+
+Screenshots saved to: N/A — browser unavailable
