@@ -8,6 +8,7 @@ import { onReady, delegate } from '../utils/events.js';
 import { categories, conditions, getCategoryName, getConditionName } from '../data/categories.js';
 import { products as allProducts } from '../data/products.js';
 import { addCreatedProduct, getCreatedProducts } from '../data/storage.js';
+import { alert as showAlert, confirm as showConfirm } from '../components/Modal.js';
 
 let formDirty = false;
 let isSubmitting = false;
@@ -308,7 +309,10 @@ function setupSubmission() {
       window.location.href = `product.html?id=${product.id}`;
     } catch (error) {
       console.error('Failed to create listing:', error);
-      alert('Failed to create listing. Please try again.');
+      await showAlert({
+        title: 'Error',
+        message: 'Failed to create listing. Please try again.',
+      });
       isSubmitting = false;
       if (submitBtn) {
         submitBtn.classList.remove('btn--loading');
@@ -367,9 +371,17 @@ function setupCancel() {
 
   cancelBtn.addEventListener('click', () => {
     if (formDirty) {
-      if (confirm('You have unsaved changes. Are you sure you want to leave?')) {
-        window.location.href = 'marketplace.html';
-      }
+      showConfirm({
+        title: 'Unsaved Changes',
+        message: 'You have unsaved changes. Are you sure you want to leave?',
+        confirmLabel: 'Leave',
+        cancelLabel: 'Stay',
+        variant: 'secondary',
+      }).then(confirmed => {
+        if (confirmed) {
+          window.location.href = 'marketplace.html';
+        }
+      });
     } else {
       window.location.href = 'marketplace.html';
     }
