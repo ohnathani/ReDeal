@@ -611,7 +611,7 @@
   left: 50%;
   transform: translateX(-50%) translateY(100px);
   padding: var(--space-sm) var(--space-lg);
-  background: var(--color-text);
+  background: var(--color-primary);
   color: white;
   border-radius: var(--radius-md);
   font-size: var(--text-sm);
