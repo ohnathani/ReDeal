@@ -503,3 +503,68 @@ Known limitations remain: single image per product, prototype-only messaging/off
 - **DEFERRED-1 (P0)**: Requires investigation before Phase 3 begins — blocks reliable product detail access
 - **DEFERRED-3 (P1)**: Requires investigation — affects visual quality but not functionality
 - **Phase 3**: Can begin after DEFERRED-1 is resolved; DEFERRED-3 can be addressed in parallel
+
+---
+
+## Phase 3 Pre-Close Audit (Luna Review 11)
+
+### Context
+Phase 3 implementation completed Create Listing page with localStorage persistence. This audit captures source-level fixes applied after initial implementation.
+
+### Fixes Applied
+
+| Fix | Priority | Description | Files Modified |
+|-----|----------|-------------|----------------|
+| FIX-1 | P1 | Include image URL in form validity; fix error element ID lookup | `js/pages/CreateListing.js` |
+| FIX-2 | P1 | Replace native `alert()`/`confirm()` with Modal component helpers | `js/pages/CreateListing.js`, `js/components/Modal.js` (import) |
+| FIX-3 | P2 | Remove hardcoded data-URI colors from select dropdowns | `css/create-listing.css` |
+| FIX-4 | P1 | Append this audit section to implementation log | `IMPLEMENTATION_LOG.md` |
+| FIX-5 | P2 | Route New Listing link directly to `create-listing.html` (remove `sell.html` redirect) | `js/main.js`, `index.html`, `marketplace.html`, `profile.html`, `requests.html`, `messages.html` |
+| FIX-6 | P2 | Implement `getNextId()` properly in `storage.js` with merged product array | `js/data/storage.js`, `js/pages/CreateListing.js` |
+
+### Verification Status (Source-Level)
+
+| Check | Result |
+|-------|--------|
+| `node --check js/pages/CreateListing.js` | ✅ Pass |
+| `node --check js/data/storage.js` | ✅ Pass |
+| `node --check js/main.js` | ✅ Pass |
+| No `alert(` or `confirm(` in CreateListing.js | ✅ Verified (grep returns 0) |
+| No `%23` hex in `css/create-listing.css` | ✅ Verified (grep returns 0) |
+| `getNextId` called in CreateListing.js | ✅ Verified |
+| All `sell.html` references updated to `create-listing.html` | ✅ Verified |
+
+### Known Remaining Items (Deferred to Phase 4+)
+
+1. **Image upload**: Create Listing still uses image URL input only; no file upload/localStorage blob storage.
+2. **Seller identity placeholder**: Created listings use "You" / "YU" / 0 rating — no auth system yet.
+3. **Draft auto-save**: Form progress not saved to localStorage on input; only saved on submit.
+4. **Cross-tab favorites sync**: `favorites-changed` CustomEvent works same-tab only.
+5. **Product detail gallery**: Single image per product; multi-image not implemented.
+6. **Unsplash remote images**: Seed data uses external URLs; local placeholder SVGs used for new products.
+
+### Browser Verification Required (Luna Review 11 Section H)
+
+Product owner must run these 16 tests to close Phase 3:
+
+| # | Test | Expected |
+|---|------|----------|
+| 1 | Create Listing page loads at `/create-listing.html` | ✅ Form renders, all fields present |
+| 2 | All required fields show validation errors when empty | ✅ Red border, error message, submit disabled |
+| 3 | Title: < 5 chars shows error | ✅ "Title must be at least 5 characters" |
+| 4 | Title: > 80 chars shows error | ✅ "Title must be no more than 80 characters" |
+| 5 | Price: empty / non-numeric / ≤ 0 / non-integer shows errors | ✅ Appropriate messages |
+| 6 | Category: unselected shows error | ✅ "Please select a category" |
+| 7 | Condition: unselected shows error | ✅ "Please select a condition" |
+| 8 | Description: < 20 chars shows error | ✅ "Description must be at least 20 characters" |
+| 9 | Description: > 1000 chars shows error | ✅ "Description must be no more than 1000 characters" |
+| 10 | Image URL: invalid URL format shows error | ✅ "Please enter a valid URL" |
+| 11 | Image URL: non-http/https protocol shows error | ✅ "URL must use http or https" |
+| 12 | All valid → submit enabled → click → redirects to product detail | ✅ New product ID, renders correctly |
+| 13 | Created product appears in Marketplace grid | ✅ Visible at top (newest first) |
+| 14 | Created product appears on Homepage recent listings | ✅ Visible if within first 6 |
+| 15 | Cancel with unsaved changes → Modal confirm → Stay/Leave works | ✅ Modal (not native confirm) |
+| 16 | Beforeunload with unsaved changes → browser warning | ✅ Standard browser dialog |
+
+**Date**: 2026-11-05
+**Status**: Source fixes complete; browser verification pending
