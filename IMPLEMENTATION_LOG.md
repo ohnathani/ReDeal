@@ -650,3 +650,22 @@ This is acceptable ONLY for a front-end prototype with fake
 credentials. Do NOT deploy to production without a real backend
 auth service. Session tokens are random strings, not cryptographic
 signatures.
+
+---
+
+## Real Product Images
+
+Date: 2026-11-05
+Replaced 15 SVG placeholder images with real product photographs
+sourced from Unsplash (free license, no attribution required).
+
+Files added: assets/images/products/*.jpg (15 files)
+Files modified: js/data/products.js (image field only)
+Files removed: assets/images/products/*.svg (15 placeholder files)
+
+Each product now displays a real photograph of the actual product
+type. Image file sizes: 27.7 KB (min) to 159.2 KB (max).
+
+Known limitation: images are downloaded locally, so the repo size
+increased by roughly 1.0 MB. If repo size matters, these could be
+converted to WebP in Phase 9 polish.
