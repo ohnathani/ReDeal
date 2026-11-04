@@ -260,7 +260,7 @@ export const seedProducts = [
     sellerInitials: 'SB',
     sellerRating: 4.9,
     sellerReviews: 18,
-    image: 'https://images.unsplash.com/photo-1506439773649-6e0eb8cfb237?w=400&h=400&fit=crop',
+    image: 'https://images.unsplash.com/photo-1519710164239-da123dc03ef4?w=400&h=400&fit=crop',
     location: 'Quezon City',
     isFavorite: false,
     createdAt: '2026-11-05T09:00:00Z',
