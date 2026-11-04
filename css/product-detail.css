@@ -189,6 +189,7 @@
 /* === Product Gallery === */
 .product-gallery {
   margin-bottom: var(--space-lg);
+  width: 100%;
 }
 
 .gallery__main {
@@ -198,6 +199,7 @@
   background: var(--color-background);
   margin-bottom: var(--space-md);
   position: relative;
+  width: 100%;
 }
 
 .gallery__main-image {
