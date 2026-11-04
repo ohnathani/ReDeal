@@ -643,3 +643,10 @@ authentication implementation. All fixes address security-relevant concerns:
 
 All changes committed individually with source verification (`node --check`).
 Working tree clean after FIX-13.
+## Phase 4 Security Note — Plaintext Password Storage
+
+Phase 4 stores passwords in plaintext in localStorage (redeal_users).
+This is acceptable ONLY for a front-end prototype with fake
+credentials. Do NOT deploy to production without a real backend
+auth service. Session tokens are random strings, not cryptographic
+signatures.
