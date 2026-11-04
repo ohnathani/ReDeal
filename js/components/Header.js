@@ -10,6 +10,7 @@ import { initUserMenu } from './UserMenu.js';
 
 let headerElement = null;
 let userMenuController = null;
+let initialized = false;
 
 /**
  * Initialize header component
@@ -18,6 +19,10 @@ let userMenuController = null;
  * @returns {HTMLElement} Header element
  */
 export function initHeader({ container } = {}) {
+  if (initialized) {
+    return headerElement;
+  }
+
   // Try to find existing header or use container
   headerElement = container?.querySelector('.header') || $('.header');
 
@@ -39,6 +44,7 @@ export function initHeader({ container } = {}) {
     initUserMenuComponent();
   }
 
+  initialized = true;
   return headerElement;
 }
 
