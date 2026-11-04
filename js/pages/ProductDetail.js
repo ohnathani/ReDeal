@@ -405,16 +405,27 @@ function setupEventListeners() {
   const placeholder = $('.gallery__placeholder');
 
   if (mainImage) {
-    mainImage.addEventListener('load', () => {
+    const handleLoad = () => {
       mainImage.classList.remove('gallery__main-image--loading');
       if (placeholder) placeholder.hidden = true;
-    });
-
-    mainImage.addEventListener('error', () => {
+    };
+    const handleError = () => {
       mainImage.classList.add('gallery__main-image--error');
       mainImage.hidden = true;
       if (placeholder) placeholder.hidden = false;
-    });
+    };
+
+    // If image is already loaded (cached), handle immediately
+    if (mainImage.complete) {
+      if (mainImage.naturalWidth > 0) {
+        handleLoad();
+      } else {
+        handleError();
+      }
+    } else {
+      mainImage.addEventListener('load', handleLoad, { once: true });
+      mainImage.addEventListener('error', handleError, { once: true });
+    }
   }
 
   // Thumbnail error handling - match main image fallback behavior
