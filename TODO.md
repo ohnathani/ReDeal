@@ -13,19 +13,24 @@ Task tracking for the ReDeal project.
 
 ## Existing Unfinished Features
 
-*None identified — project is at initial setup stage.*
+*None identified — Phase 1 and Phase 2 complete.*
 
 ---
 
 ## Known Bugs
 
-*None identified — project is at initial setup stage.*
+*None identified — all Luna Review 1-3 Priority 0, 1, 2 conditions resolved.*
 
 ---
 
 ## Technical Debt
 
-*None identified — project is at initial setup stage.*
+| Status | Priority | Type | Task | Details |
+|--------|----------|------|------|---------|
+| `[ ]` | LOW | TECH | Cross-tab favorites sync | Add `storage` event listener for cross-tab sync |
+| `[ ]` | LOW | TECH | Multi-image gallery support | Extend product data model to support multiple images |
+| `[ ]` | LOW | TECH | Figma design directory cleanup | Remove or archive `figma_design/` directory |
+| `[ ]` | LOW | TECH | Unsplash images in data layer | Replace placeholder images with local assets |
 
 ---
 
@@ -47,12 +52,15 @@ Task tracking for the ReDeal project.
 
 ## Prioritized Tasks (Next Steps)
 
-1. **Implement marketplace page** — Create `marketplace.html` based on Figma frame3 design with filters, sort, and product grid
-2. **Implement product detail page** — Create `product.html` based on Figma productdetailsscreen design with gallery, info, description, defects, proof photos, seller
-3. **Add more sample data** — Create JSON data files for products, categories, sellers
-4. **Implement routing** — Simple hash-based or history-based router for SPA navigation
-5. **Add accessibility audit** — Run through WCAG 2.1 AA checklist
-6. **Test cross-browser** — Verify in Chrome, Firefox, Safari
+1. **Phase 3 Planning** — Define scope for user auth, messaging, offers, dashboard, search, image upload, ratings, PWA
+2. **User authentication flow** — Login/signup pages with form validation
+3. **Real messaging system** — WebSocket/backend integration
+4. **Offer/transaction system** — Backend integration for offers
+5. **User dashboard** — My listings, favorites, purchases, sales
+6. **Search improvements** — Debounced, suggestions
+7. **Image upload for listings** — Client-side preview, validation
+8. **Rating/review system** — Seller and product ratings
+9. **PWA enhancements** — Offline support, install prompt
 
 ---
 
@@ -66,6 +74,11 @@ Task tracking for the ReDeal project.
 | 2026-11-04 | Implement core components | Button, Card (ProductCard, FeatureCard), Modal with confirm/alert helpers |
 | 2026-11-04 | Set up utility modules | dom.js, events.js with delegation, debounce, throttle, focus trap, etc. |
 | 2026-11-04 | Create favicon assets | favicon.svg, apple-touch-icon.svg, manifest.json, generate-favicons.html |
+| 2026-11-04 | Phase 1: Project Setup & Base Architecture | Complete foundation with design system, component library, shared data layer |
+| 2026-11-04 | Phase 2: Product Detail Page | Gallery, product info, seller card, favorite toggle, Message Seller/Make Offer modals, share, responsive |
+| 2026-11-04 | Luna Review 1 fixes | Git integrity, imports, bottom nav, modal buttons, duplicate H1, touch targets |
+| 2026-11-04 | Luna Review 2 fixes | Hardcoded colors, gallery counter, PWA icons, thumbnail errors, prompt/alert replacement |
+| 2026-11-04 | Luna Review 3 fixes | P0 modal regression, share fallback inline JS, PWA manifest routes, log accuracy |
 
 ---
 

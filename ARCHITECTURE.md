@@ -39,6 +39,14 @@ The complete design token palette is centralized in `css/variables.css`. This is
   --color-warning: #A66B00;
   --color-error: #DC3545;
 
+  /* === Status Color Backgrounds (light variants for badges/alerts) === */
+  --color-success-bg: #E8F7F0;
+  --color-warning-bg: #FFF8E1;
+  --color-error-bg: #FDEDEA;
+
+  /* === On-Primary (text/icon color on primary backgrounds) === */
+  --color-on-primary: #FFFFFF;
+
   /* === Spacing === */
   --space-xs: 0.25rem;   /* 4px */
   --space-sm: 0.5rem;    /* 8px */
@@ -75,11 +83,65 @@ The complete design token palette is centralized in `css/variables.css`. This is
   --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.05);
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
   --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+  --shadow-focus: 0 0 0 3px rgb(94 23 235 / 0.3);
+  --shadow-action-bar: 0 -4px 12px rgb(0 0 0 / 0.05);
+
+  /* === Overlay/Backdrop === */
+  --overlay-backdrop: rgba(0, 0, 0, 0.5);
 
   /* === Transitions === */
-  --transition-fast: 150ms ease;
-  --transition-base: 250ms ease;
-  --transition-slow: 350ms ease;
+  --transition-fast: 100ms ease;
+  --transition-base: 200ms ease;
+  --transition-slow: 300ms ease;
+
+  /* === Z-Index Scale === */
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-fixed: 300;
+  --z-modal-backdrop: 400;
+  --z-modal: 500;
+  --z-popover: 600;
+  --z-tooltip: 700;
+  --z-toast: 800;
+
+  /* === Container Max Widths === */
+  --container-sm: 640px;
+  --container-md: 768px;
+  --container-lg: 1024px;
+  --container-xl: 1280px;
+  --container-2xl: 1536px;
+  --container-full: 100%;
+
+  /* === Focus Ring === */
+  --focus-ring-width: 2px;
+  --focus-ring-offset: 2px;
+  --focus-ring-color: var(--color-primary);
+}
+```
+
+/* === Dark Mode (optional - for future use) === */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-background: #141218;
+    --color-surface: #1C1A22;
+    --color-text: #F2F0F7;
+    --color-text-secondary: #A39EAD;
+    --color-text-muted: #777180;
+    --color-border: #2D2A38;
+    --color-border-strong: #3D3A4A;
+    --color-lavender-soft: #2E2A3E;
+  }
+}
+
+/* === High Contrast Mode (optional - for future use) === */
+@media (prefers-contrast: high) {
+  :root {
+    --color-border: var(--color-text);
+    --color-border-strong: var(--color-text);
+    --shadow-md: 0 0 0 1px var(--color-text);
+    --shadow-lg: 0 0 0 2px var(--color-text);
+  }
 }
 ```
 
@@ -197,7 +259,7 @@ a:hover { text-decoration: underline; }
   transition: background var(--transition-fast), color var(--transition-fast);
 }
 .btn:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; }
-.btn--primary { background: var(--color-primary); color: white; }
+.btn--primary { background: var(--color-primary); color: var(--color-on-primary); }
 .btn--primary:hover { background: var(--color-primary-hover); }
 .btn--secondary { background: var(--color-surface); color: var(--color-text); border-color: var(--color-border); }
 .btn--secondary:hover { background: var(--color-border); }
@@ -232,9 +294,9 @@ a:hover { text-decoration: underline; }
   font-weight: 600; border-radius: var(--radius-full);
 }
 .badge--primary { background: var(--color-lavender); color: var(--color-primary); }
-.badge--success { background: #E8F7F0; color: var(--color-success); }
-.badge--warning { background: #FFF8E1; color: var(--color-warning); }
-.badge--error { background: #FDEDEA; color: var(--color-error); }
+.badge--success { background: var(--color-success-bg); color: var(--color-success); }
+.badge--warning { background: var(--color-warning-bg); color: var(--color-warning); }
+.badge--error { background: var(--color-error-bg); color: var(--color-error); }
 
 /* Grid */
 .grid { display: grid; gap: var(--space-md); }
