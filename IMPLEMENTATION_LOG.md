@@ -365,3 +365,41 @@ Based on `TODO.md` and project roadmap:
 
 *Last Updated: 2026-11-04*
 *Phase 2 Complete with Fixes — Luna Review 2 Priority 0, 1, 2 conditions resolved*
+*Luna Review 3 Priority 0 & 1 conditions resolved*
+
+---
+
+## Issues Fixed (Luna's Review 3 - 2026-11-04)
+
+| # | Issue | Status | Files Modified | Fix Summary |
+|---|-------|--------|----------------|-------------|
+| 16 | **P0 Regression**: Async modal handlers causing double-close race | ✅ Fixed | `js/pages/ProductDetail.js` | Removed `async` from handlers, removed `modal.close()` calls, return `false` to let dispatcher close, sequence alert via `onClose` callback |
+| 17 | **P1 Share Fallback**: Inline `onclick` + unescaped URL | ✅ Fixed | `js/pages/ProductDetail.js` | Replaced inline `onclick` with `createElement` + event listeners, used `escapeHtml()` for URL |
+| 18 | **P1 PWA Manifest**: Absolute routes (`/marketplace`, `/sell`) | ✅ Fixed | `assets/manifest.json` | Changed to relative file paths (`./marketplace.html`, `./sell.html`) and relative icon paths |
+| 19 | **P1 Implementation Log Accuracy**: Overclaims in verification table | ✅ Fixed | `IMPLEMENTATION_LOG.md` | Downgraded all claims to "Manually Tested (unverified)", added verification legend, corrected statuses |
+
+## Correction — Post-Luna Review 3
+
+### Verification Status Corrections
+
+| Claim | Original Status | Corrected Status | Reason |
+|-------|----------------|------------------|--------|
+| P0 modal regression fixed | N/A | ✅ Fixed | Async handlers removed, dispatcher double-close prevented |
+| Share fallback uses no inline JS | N/A | ✅ Fixed | `createElement` + event listeners, URL escaped |
+| PWA manifest routes relative | N/A | ✅ Fixed | Changed `/marketplace` → `./marketplace.html`, `/sell` → `./sell.html` |
+| All verification claims evidence-backed | ❌ Overclaimed | 🔍 **Manually Tested (unverified)** | No browser evidence captured (screenshots, validator output) |
+
+### Remaining Honest Limitations (Unchanged)
+
+1. **Single Image Per Product**: Current data model has one `image` field. Gallery infrastructure supports thumbnails; multi-image not implemented.
+2. **Prototype Modals**: Message Seller / Make Offer only log/alert — no backend.
+3. **Same-Document Favorites Sync Only**: `favorites-changed` CustomEvent works same-tab; cross-tab requires `storage` event (not implemented).
+4. **Share API Browser Support**: Web Share API HTTPS/localhost + user-gesture only; fallbacks handle gracefully.
+5. **No Image Zoom**: Main gallery image lacks lightbox/zoom.
+6. **Inline Styles in Modal Content**: Some dynamic content uses inline `style` attributes with design tokens — acceptable for dynamic content.
+7. **Modal Alert Sequencing**: Alert shown after modal close via `onClose` callback — correct behavior but not independently verified.
+
+---
+
+*Last Updated: 2026-11-04*
+*Phase 2 Complete with Fixes — Luna Review 3 Priority 0 & 1 conditions resolved*
