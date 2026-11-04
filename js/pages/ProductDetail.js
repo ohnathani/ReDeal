@@ -275,9 +275,7 @@ function renderProduct(product) {
         </div>
       </section>
 
-    </div> <!-- /product-detail-grid -->
-
-      <!-- Actions -->
+      <!-- Actions (inside .product-info) -->
       <div class="product-actions" role="group" aria-label="Product actions">
         <div class="product-actions__primary">
           <button class="btn btn--primary btn--lg btn--block" data-action="make-offer">
@@ -301,7 +299,8 @@ function renderProduct(product) {
           </button>
         </div>
       </div>
-    </div>
+    </div> <!-- /product-info -->
+    </div> <!-- /product-detail-grid -->
 
     <!-- Mobile Action Bar -->
     <div class="action-bar" role="toolbar" aria-label="Product actions">
