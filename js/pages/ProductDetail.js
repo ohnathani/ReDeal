@@ -510,12 +510,14 @@ function handleMessageSeller(event, button) {
           return false;
         }
 
-        modalInstance.close();
-
-        requestAnimationFrame(() => {
-          alert({
-            title: 'Message Sent',
-            message: 'Your message has been sent to the seller. (Prototype — no backend.)',
+        modalInstance.close().then(() => {
+          requestAnimationFrame(() => {
+            alert({
+              title: 'Message Sent',
+              message: 'Your message has been sent to the seller. (Prototype — no backend.)',
+            }).then(() => {
+              if (button?.isConnected) button.focus();
+            });
           });
         });
 
@@ -581,12 +583,14 @@ function handleMakeOffer(event, button) {
           return false;
         }
 
-        modalInstance.close();
-
-        requestAnimationFrame(() => {
-          alert({
-            title: 'Offer Sent',
-            message: `Your offer of ₱${amount.toLocaleString()} has been sent. (Prototype — no backend.)`,
+        modalInstance.close().then(() => {
+          requestAnimationFrame(() => {
+            alert({
+              title: 'Offer Sent',
+              message: `Your offer of ₱${amount.toLocaleString()} has been sent. (Prototype — no backend.)`,
+            }).then(() => {
+              if (button?.isConnected) button.focus();
+            });
           });
         });
 
