@@ -9,6 +9,8 @@ import { ProductCard, FeatureCard } from './components/Card.js';
 import { Modal } from './components/Modal.js';
 import { products } from './data/products.js';
 import { getFavorites, initProductFavorites } from './utils/favorites.js';
+import { initHeader, setCurrentPage } from './components/Header.js';
+import { restoreSession } from './data/auth.js';
 
 // Sample product data imported from shared module (homepage shows first 6)
 const sampleProducts = products.slice(0, 6);
@@ -153,6 +155,25 @@ function showProductDetail(product) {
 function init() {
   console.log('ReDeal app initialized');
 
+  // Restore session and init header
+  const user = restoreSession();
+  initHeader({});
+  setCurrentPage('home');
+
+  // Listen for auth changes
+  window.addEventListener('auth:login', () => {
+    initHeader({});
+    setCurrentPage('home');
+  });
+  window.addEventListener('auth:logout', () => {
+    initHeader({});
+    setCurrentPage('home');
+  });
+  window.addEventListener('auth:restore', () => {
+    initHeader({});
+    setCurrentPage('home');
+  });
+
   // Render feature cards
   const featuresGrid = $('#listings-grid');
   if (featuresGrid) {
@@ -183,20 +204,6 @@ function init() {
     }
   });
 
-  // New Listing button now uses direct href="create-listing.html" in HTML
-
-  // Set up auth buttons
-  delegate(document.body, '.auth-actions__buttons .btn', 'click', (e, btn) => {
-    const action = btn.textContent.trim();
-    console.log('Auth action:', action);
-    // In a real app, show login/signup modal
-    if (action === 'Log In') {
-      showLoginModal();
-    } else if (action === 'Sign Up') {
-      showSignupModal();
-    }
-  });
-
   // Search input handler — navigate to marketplace with query
   const searchInput = $('.header__search-input');
   if (searchInput) {
@@ -220,93 +227,6 @@ function init() {
       }
     });
   }
-}
-
-/**
- * Show login modal
- */
-function showLoginModal() {
-  const modal = new Modal({
-    title: 'Log In',
-    content: `
-      <form id="login-form" style="display: grid; gap: var(--space-md);">
-        <div class="form-group">
-          <label class="form-label" for="email">Email</label>
-          <input type="email" id="email" class="form-input" placeholder="you@example.com" required autocomplete="email">
-        </div>
-        <div class="form-group">
-          <label class="form-label" for="password">Password</label>
-          <input type="password" id="password" class="form-input" placeholder="••••••••" required autocomplete="current-password">
-        </div>
-        <label class="form-check" style="display: flex; align-items: center; gap: var(--space-sm); cursor: pointer;">
-          <input type="checkbox" class="form-check-input">
-          <span class="form-check-label">Remember me</span>
-        </label>
-        <p style="font-size: var(--text-sm); color: var(--color-text-muted); margin: 0;">
-          <a href="#" style="color: var(--color-primary);">Forgot password?</a>
-        </p>
-      </form>
-    `,
-    actions: [
-      { label: 'Cancel', variant: 'btn--secondary' },
-      { label: 'Log In', variant: 'btn--primary', primary: true, handler: () => {
-        const form = modal.modal.querySelector('#login-form');
-        if (form) {
-          const formData = new FormData(form);
-          console.log('Login:', Object.fromEntries(formData));
-          return true;
-        }
-        return false;
-      }},
-    ],
-  });
-  modal.open();
-}
-
-/**
- * Show signup modal
- */
-function showSignupModal() {
-  const modal = new Modal({
-    title: 'Create Account',
-    content: `
-      <form id="signup-form" style="display: grid; gap: var(--space-md);">
-        <div class="form-group">
-          <label class="form-label" for="name">Full Name</label>
-          <input type="text" id="name" class="form-input" placeholder="John Doe" required autocomplete="name">
-        </div>
-        <div class="form-group">
-          <label class="form-label" for="email">Email</label>
-          <input type="email" id="email" class="form-input" placeholder="you@example.com" required autocomplete="email">
-        </div>
-        <div class="form-group">
-          <label class="form-label" for="password">Password</label>
-          <input type="password" id="password" class="form-input" placeholder="••••••••" required autocomplete="new-password" minlength="8">
-        </div>
-        <div class="form-group">
-          <label class="form-label" for="confirm-password">Confirm Password</label>
-          <input type="password" id="confirm-password" class="form-input" placeholder="••••••••" required autocomplete="new-password">
-        </div>
-        <label class="form-check" style="display: flex; align-items: center; gap: var(--space-sm); cursor: pointer;">
-          <input type="checkbox" class="form-check-input" required>
-          <span class="form-check-label">I agree to the <a href="#" style="color: var(--color-primary);">Terms of Service</a> and <a href="#" style="color: var(--color-primary);">Privacy Policy</a></span>
-        </label>
-      </form>
-    `,
-    actions: [
-      { label: 'Cancel', variant: 'btn--secondary' },
-      { label: 'Create Account', variant: 'btn--primary', primary: true, handler: () => {
-        const form = modal.modal.querySelector('#signup-form');
-        if (form) {
-          const formData = new FormData(form);
-          console.log('Signup:', Object.fromEntries(formData));
-          return true;
-        }
-        return false;
-      }},
-    ],
-  });
-  modal.open();
 }
 
 // Initialize when DOM is ready

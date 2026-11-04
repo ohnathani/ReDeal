@@ -9,6 +9,8 @@ import { products, getProducts } from '../data/products.js';
 import { categories, conditions, sortOptions, getCategoryName, getConditionName, getSortName } from '../data/categories.js';
 import { ProductCard } from '../components/Card.js';
 import { getFavorites, initProductFavorites } from '../utils/favorites.js';
+import { initHeader, setCurrentPage } from '../components/Header.js';
+import { restoreSession } from '../data/auth.js';
 
 const state = {
   query: '',
@@ -219,6 +221,25 @@ function setupFilters() {
  */
 function init() {
   console.log('Marketplace page initialized');
+
+  // Restore session and init header
+  const user = restoreSession();
+  initHeader({});
+  setCurrentPage('marketplace');
+
+  // Listen for auth changes
+  window.addEventListener('auth:login', () => {
+    initHeader({});
+    setCurrentPage('marketplace');
+  });
+  window.addEventListener('auth:logout', () => {
+    initHeader({});
+    setCurrentPage('marketplace');
+  });
+  window.addEventListener('auth:restore', () => {
+    initHeader({});
+    setCurrentPage('marketplace');
+  });
 
   // Initialize favorites from localStorage
   initProductFavorites(products);

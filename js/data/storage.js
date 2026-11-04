@@ -39,6 +39,15 @@ export function addCreatedProduct(product) {
 }
 
 /**
+ * Get created products for a specific user
+ * @param {string} userId - User ID
+ * @returns {Array} User's created products
+ */
+export function getCreatedProductsByUser(userId) {
+  return getCreatedProducts().filter(p => p.sellerId === userId);
+}
+
+/**
  * Generate next available product ID (as string)
  * Considers both seed products and created products
  * @param {Array} [existingProducts=[]] - Additional products to consider (e.g., merged array from products.js)

@@ -8,15 +8,25 @@ import { onReady, delegate } from '../utils/events.js';
 import { categories, conditions, getCategoryName, getConditionName } from '../data/categories.js';
 import { products as allProducts } from '../data/products.js';
 import { addCreatedProduct, getCreatedProducts, getNextId } from '../data/storage.js';
+import { getCurrentUser } from '../data/auth.js';
 import { alert as showAlert, confirm as showConfirm } from '../components/Modal.js';
+import { requireAuth } from '../utils/auth-guard.js';
 
 let formDirty = false;
 let isSubmitting = false;
+let currentUser = null;
 
 /**
  * Initialize the create listing page
  */
 function init() {
+  // Require authentication
+  currentUser = requireAuth({ redirectTo: 'create-listing.html' });
+  if (!currentUser) {
+    // Redirect handled by requireAuth
+    return;
+  }
+
   console.log('Create Listing page initialized');
 
   // Populate category dropdown
@@ -347,8 +357,10 @@ function buildProductObject() {
   // Generate next ID using storage.getNextId with merged products array
   const nextId = getNextId(allProducts);
 
-  // Generate seller initials from "You"
-  const sellerInitials = 'YU';
+  // Generate seller info from current user
+  const sellerName = currentUser?.name || 'You';
+  const sellerInitials = currentUser?.initials || 'YU';
+  const sellerId = currentUser?.id || null;
 
   return {
     id: nextId,
@@ -357,8 +369,9 @@ function buildProductObject() {
     category,
     condition,
     timeAgo: 'Just now',
-    sellerName: 'You',
+    sellerName,
     sellerInitials,
+    sellerId,
     sellerRating: 0,
     sellerReviews: 0,
     image: imageUrl,
