@@ -143,7 +143,7 @@ export const seedProducts = [
   },
   {
     id: '8',
-    title: 'Mountain Bike - Trek Marlin 5',
+    title: 'Road Bike - Trek Domane AL 2',
     price: '₱22,000',
     category: 'sports',
     condition: 'good',
@@ -156,7 +156,7 @@ export const seedProducts = [
     location: 'Antipolo, Rizal',
     isFavorite: false,
     createdAt: '2026-11-02T10:00:00Z',
-    description: 'Trek Marlin 5 Gen 2, size Medium (17.5"). 21-speed Shimano drivetrain, hydraulic disc brakes, 29" wheels. Recently serviced. Great for trails and commuting.',
+    description: 'Trek Domane AL 2, size Medium (54cm). 16-speed Shimano Claris drivetrain, rim brakes, 700c wheels. Recently serviced. Great for road cycling and commuting.',
     defects: ['Small scratch on top tube', 'Grips show normal wear'],
   },
   {
