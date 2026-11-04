@@ -37,7 +37,7 @@
 /* Button Variants */
 .btn--primary {
   background: var(--color-primary);
-  color: white;
+  color: var(--color-on-primary);
 }
 .btn--primary:hover:not(:disabled) {
   background: var(--color-primary-hover);
@@ -185,7 +185,7 @@
   top: var(--space-sm);
   right: var(--space-sm);
   background: var(--color-primary);
-  color: white;
+  color: var(--color-on-primary);
   padding: var(--space-xs) var(--space-sm);
   border-radius: var(--radius-full);
   font-size: var(--text-xs);
@@ -236,7 +236,7 @@
 }
 .product-card__favorite--active {
   background: var(--color-primary);
-  color: white;
+  color: var(--color-on-primary);
   border-color: var(--color-primary);
 }
 .product-card__meta {
@@ -385,7 +385,7 @@
   content: "";
   width: 6px;
   height: 10px;
-  border: 2px solid white;
+  border: 2px solid var(--color-on-primary);
   border-top: 0;
   border-left: 0;
   transform: rotate(45deg) translateY(-1px);
@@ -397,7 +397,7 @@
   content: "";
   width: 8px;
   height: 8px;
-  background: white;
+  background: var(--color-on-primary);
   border-radius: 50%;
   border: 0;
   transform: none;
@@ -802,7 +802,7 @@
 }
 .pagination__item--active {
   background: var(--color-primary);
-  color: white;
+  color: var(--color-on-primary);
   border-color: var(--color-primary);
 }
 .pagination__item:disabled {

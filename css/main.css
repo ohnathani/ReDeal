@@ -75,7 +75,7 @@ h4 { font-size: var(--text-lg); font-weight: 600; line-height: var(--leading-nor
   left: var(--space-md);
   padding: var(--space-sm) var(--space-md);
   background: var(--color-primary);
-  color: white;
+  color: var(--color-on-primary);
   border-radius: var(--radius-md);
   z-index: 10000;
   font-weight: 600;

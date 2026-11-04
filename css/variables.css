@@ -40,6 +40,9 @@
   --color-warning-bg: #FFF8E1;
   --color-error-bg: #FDEDEA;
 
+  /* === On-Primary (text/icon color on primary backgrounds) === */
+  --color-on-primary: #FFFFFF;
+
   /* === Spacing — 4px base scale === */
   --space-xs: 0.25rem;  /* 4px */
   --space-sm: 0.5rem;   /* 8px */

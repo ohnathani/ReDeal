@@ -468,7 +468,7 @@
 
 .favorite-btn--active {
   background: var(--color-primary);
-  color: white;
+  color: var(--color-on-primary);
   border-color: var(--color-primary);
 }
 
@@ -612,7 +612,7 @@
   transform: translateX(-50%) translateY(100px);
   padding: var(--space-sm) var(--space-lg);
   background: var(--color-primary);
-  color: white;
+  color: var(--color-on-primary);
   border-radius: var(--radius-md);
   font-size: var(--text-sm);
   font-weight: 500;
