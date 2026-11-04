@@ -98,7 +98,7 @@ export const seedProducts = [
     sellerInitials: 'JC',
     sellerRating: 4.3,
     sellerReviews: 45,
-    image: 'https://images.unsplash.com/photo-1550745165-9bc0b258749f?w=400&h=400&fit=crop',
+    image: 'https://images.unsplash.com/photo-1601058280101-2b374a5b1d52?w=400&h=400&fit=crop',
     location: 'Davao City, Davao del Sur',
     isFavorite: false,
     createdAt: '2026-11-04T06:00:00Z',
