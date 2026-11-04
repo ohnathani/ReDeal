@@ -16,27 +16,29 @@
 <body>
   <a href="#main" class="skip-link">Skip to main content</a>
 
-  <header class="product-detail-header" role="banner">
-    <div class="product-detail-header__inner">
-      <a href="marketplace.html" class="product-detail-header__back" aria-label="Back to Marketplace">
+  <header class="header" role="banner">
+    <div class="header__topbar">
+      <a href="marketplace.html" class="header__logo" aria-label="Back to Marketplace">
         <svg class="icon icon--md" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M19 12H5M12 19l-7-7 7-7"/>
         </svg>
-        <span class="product-detail-header__back-text">Back</span>
+        <span class="header__logo-text">ReDeal</span>
       </a>
-      <span class="product-detail-header__title">Product Details</span>
+      <nav class="header__nav" aria-label="Primary navigation">
+        <a href="index.html" class="header__nav-link">Home</a>
+        <a href="marketplace.html" class="header__nav-link" aria-current="page">Marketplace</a>
+        <a href="requests.html" class="header__nav-link">Requests</a>
+        <a href="messages.html" class="header__nav-link">Messages</a>
+        <a href="profile.html" class="header__nav-link">Profile</a>
+      </nav>
       <div class="header__auth"></div>
-      <button class="product-detail-header__share" aria-label="Share product">
-        <svg class="icon icon--md" width="24" height="24" viewBox="0 0 24 24"
-             fill="none" stroke="currentColor" stroke-width="2"
-             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <circle cx="18" cy="5" r="3"/>
-          <circle cx="6" cy="12" r="3"/>
-          <circle cx="18" cy="19" r="3"/>
-          <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
-          <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
-        </svg>
-      </button>
+    </div>
+    <div class="header__search" role="search">
+      <svg class="header__search-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"/>
+        <path d="M21 21l-4.35-4.35"/>
+      </svg>
+      <input type="search" class="header__search-input" placeholder="Search items, brands, or requests..." aria-label="Search items, brands, or requests">
     </div>
   </header>
 

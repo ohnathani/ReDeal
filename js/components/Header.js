@@ -73,10 +73,15 @@ function renderAuthSection(user) {
 
   if (user) {
     // Authenticated state
-    const isDemo = user.isDemo === true;
 
     authContainer.innerHTML = '';
     const authActions = createElement('div', { class: 'auth-actions auth-actions--authenticated' }, [
+      // New Listing button (only show on desktop, not on create-listing page)
+      createElement('a', {
+        href: 'create-listing.html',
+        class: 'btn btn--primary header__new-listing',
+        'aria-label': 'Create new listing',
+      }, '➕ New Listing'),
       // User menu trigger
       createElement('button', {
         class: 'user-menu__trigger',
@@ -86,9 +91,6 @@ function renderAuthSection(user) {
         'aria-haspopup': 'true',
       }, [
         createElement('div', { class: 'avatar avatar--sm' }, user.initials),
-        ...(isDemo ? [
-          createElement('span', { class: 'avatar__badge badge badge--guest' }, 'Guest'),
-        ] : []),
       ]),
     ]);
 
@@ -140,7 +142,7 @@ export function setCurrentPage(currentPage) {
   const newListingBtn = headerElement.querySelector('.header__new-listing');
   if (newListingBtn) {
     // Show on marketplace, hide on create-listing
-    newListingBtn.style.display = currentPage === 'create-listing' ? 'none' : '';
+    newListingBtn.classList.toggle('is-hidden', currentPage === 'create-listing');
   }
 }
 

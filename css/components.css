@@ -312,6 +312,9 @@
   background: var(--color-border);
   color: var(--color-text-secondary);
 }
+.avatar {
+  position: relative;
+}
 
 /* === Form === */
 .form-group {
@@ -974,7 +977,7 @@
 /* === FAB (Floating Action Button) === */
 .fab {
   position: fixed;
-  bottom: var(--space-xl);
+  bottom: calc(var(--space-xl) + 80px);
   right: var(--space-xl);
   width: 56px;
   height: 56px;
@@ -1004,6 +1007,24 @@
   width: 24px;
   height: 24px;
   stroke-width: 2.5;
+}
+
+/* === Auth Actions (Header) === */
+.auth-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.header__new-listing {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  white-space: nowrap;
+}
+
+.header__new-listing.is-hidden {
+  display: none;
 }
 
 /* === Icon === */
