@@ -212,8 +212,8 @@ function validateField(fieldName) {
  * Check if all required fields are valid
  */
 function checkFormValidity() {
-  const requiredFields = ['title', 'price', 'category', 'condition', 'description'];
-  return requiredFields.every(field => validateField(field));
+  const requiredFields = ['title', 'price', 'category', 'condition', 'description', 'imageUrl'];
+  return requiredFields.map(field => validateField(field)).every(Boolean);
 }
 
 /**
