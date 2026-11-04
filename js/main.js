@@ -183,14 +183,7 @@ function init() {
     }
   });
 
-  // Set up New Listing button
-  const newListingBtn = $('.header__new-listing');
-  if (newListingBtn) {
-    newListingBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      window.location.href = 'create-listing.html';
-    });
-  }
+  // New Listing button now uses direct href="create-listing.html" in HTML
 
   // Set up auth buttons
   delegate(document.body, '.auth-actions__buttons .btn', 'click', (e, btn) => {
