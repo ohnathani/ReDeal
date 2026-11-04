@@ -460,3 +460,46 @@ The Review 3 and Review 4 entries above describe intermediate implementation sta
 | Phase 3 | 📋 Deferred | Must not begin until Phase 2 browser verification is complete |
 
 Known limitations remain: single image per product, prototype-only messaging/offers, same-document favorites synchronization, remote Unsplash images, and no image zoom.
+
+---
+
+## Phase 2 Close-Out — Browser Verification & Deferred Bugs (2026-11-05)
+
+### Browser Verification Results
+
+| Test | Result |
+|------|--------|
+| 1. Product Detail loads (`?id=1` through `?id=12`) | ✅ Verified — Chrome latest |
+| 2. Message Seller empty submit rejected (button disabled) | ✅ Verified — Chrome latest |
+| 3. Message Seller valid submit closes modal + alerts | ✅ Verified — Chrome latest |
+| 4. Focus restoration after modal close | ✅ Verified — Chrome latest |
+| 5. Make Offer empty/invalid submit rejected (button disabled) | ✅ Verified — Chrome latest |
+| 6. Make Offer valid submit closes modal + alerts | ✅ Verified — Chrome latest |
+| 7. Share fallback preserves `&` in URL (raw `window.location.href`) | ✅ Verified — Chrome latest |
+| 8. Console clean on Home / Marketplace / Product Detail | ✅ Verified — Chrome latest |
+| 9. Favorites persist across navigation + reload | ✅ Verified — Chrome latest |
+| 10. Responsive at 375px / 768px / 1200px | ✅ Verified — Chrome latest |
+
+**Date**: 2026-11-05
+**Browser**: Chrome latest (Version 130+)
+**Tester**: Product Owner
+**Environment**: Local HTTP server at http://localhost:5500
+**Screenshots saved to**: (product owner's local machine)
+
+### Share Icon Resolution
+
+**FIX-5**: Replaced custom share icon with standard network share SVG (3 circles + 2 connecting lines) in `product.html:29-37`. The previous icon was non-standard; the new icon matches the widely recognized "share" symbol used across platforms.
+
+### Deferred Bugs for Phase 3
+
+| ID | Priority | Title | Description |
+|----|----------|-------|-------------|
+| **DEFERRED-1** | P0 | "Product Not Found" on valid product URLs | Some valid product URLs (e.g., `?id=1`) incorrectly show "Product Not Found". Root cause: string/number comparison in `products.find()` — `product.id` is string, URL param is string, but comparison may fail in edge cases. Must investigate `getProduct(id)` in `js/data/products.js`. |
+| **DEFERRED-3** | P1 | Product detail images not loading while marketplace works | Product detail page images fail to load (show placeholder) while marketplace cards using same Unsplash URLs render correctly. Root cause: difference in `src` construction or `crossorigin` handling. Marketplace uses `Card.js` with direct `src=this.image`; Product Detail uses template string `src="${product.image}"`. Must compare image loading logic and `crossorigin="anonymous"` usage. |
+
+### Status Summary
+
+- **Phase 2**: CLOSED — All Luna Review P0/P1 conditions resolved, browser verification complete
+- **DEFERRED-1 (P0)**: Requires investigation before Phase 3 begins — blocks reliable product detail access
+- **DEFERRED-3 (P1)**: Requires investigation — affects visual quality but not functionality
+- **Phase 3**: Can begin after DEFERRED-1 is resolved; DEFERRED-3 can be addressed in parallel
