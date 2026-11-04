@@ -125,7 +125,7 @@ export const seedProducts = [
   },
   {
     id: '7',
-    title: 'Harry Potter Complete Box Set',
+    title: 'Assorted Books Collection',
     price: '₱2,800',
     category: 'books',
     condition: 'like-new',
@@ -138,8 +138,8 @@ export const seedProducts = [
     location: 'Mandaluyong, Metro Manila',
     isFavorite: false,
     createdAt: '2026-11-04T08:00:00Z',
-    description: 'Complete 7-book Harry Potter paperback box set. J.K. Rowling. All books in excellent condition, no creases or tears. Collector\'s edition box with artwork.',
-    defects: ['Box has minor shelf wear'],
+    description: 'Collection of assorted paperback books in excellent condition. Various genres including fiction, non-fiction, and classics. No creases or tears. Great for readers looking to expand their library.',
+    defects: ['Some books have minor shelf wear'],
   },
   {
     id: '8',
@@ -197,7 +197,7 @@ export const seedProducts = [
   },
   {
     id: '11',
-    title: 'Mechanical Keyboard - Keychron K2',
+    title: 'Apple Magic Keyboard',
     price: '₱4,800',
     category: 'electronics',
     condition: 'new',
@@ -210,7 +210,7 @@ export const seedProducts = [
     location: 'Pasay, Metro Manila',
     isFavorite: false,
     createdAt: '2026-11-04T11:30:00Z',
-    description: 'Keychron K2 Version 2, hot-swappable, Gateron Brown switches, RGB backlight, Bluetooth 5.1. Includes extra keycaps, switch puller, USB-C cable. Unopened box.',
+    description: 'Apple Magic Keyboard with Touch ID and numeric keypad. White keys with silver aluminum enclosure. USB-C to Lightning cable included. Unopened box.',
     defects: [],
   },
   {
