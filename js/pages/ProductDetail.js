@@ -23,7 +23,7 @@ function init() {
 
   // Get product ID from URL
   const params = new URLSearchParams(window.location.search);
-  const productId = params.get('id');
+  const productId = params.get('id')?.trim();  // Trim whitespace edge cases
 
   if (!productId) {
     showNotFound();
@@ -184,7 +184,6 @@ function renderProduct(product) {
             src="${product.image}"
             alt="${escapeHtml(product.title)}"
             loading="eager"
-            crossorigin="anonymous"
           >
           <div class="gallery__placeholder" hidden>
             <svg class="icon icon--xl" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -202,7 +201,7 @@ function renderProduct(product) {
             aria-label="${escapeHtml(product.title)}"
             data-index="0"
           >
-            <img src="${product.image}" alt="" loading="lazy" crossorigin="anonymous">
+            <img src="${product.image}" alt="" loading="lazy">
           </button>
         </div>
       </section>
