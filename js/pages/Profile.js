@@ -98,6 +98,9 @@ async function renderProfile() {
   // Update settings form
   const settingsName = $('#settings-name');
   if (settingsName) settingsName.value = currentUser.name;
+  const settingsEmail = $('#settings-email');
+  if (settingsEmail) settingsEmail.value = currentUser.email;
+  updateSettingsSaveButton();
 
   // Load stats
   await loadStats();
@@ -226,9 +229,7 @@ async function loadFavorites() {
  * Setup event listeners
  */
 function setupEventListeners() {
-  // Save name button
-  const saveNameBtn = $('#save-name-btn');
-  saveNameBtn?.addEventListener('click', handleSaveName);
+  initSettingsTab();
 
   // Logout button
   const logoutBtn = $('#logout-btn');
@@ -238,6 +239,74 @@ function setupEventListeners() {
   window.addEventListener('favorites:changed', () => {
     loadStats();
     loadFavorites();
+  });
+}
+
+/**
+ * Initialize the settings section interactions
+ */
+function initSettingsTab() {
+  const nameInput = $('#settings-name');
+  const saveNameBtn = $('#save-name-btn');
+  const deleteAccountBtn = $('#delete-account-btn');
+
+  if (nameInput && saveNameBtn) {
+    updateSettingsSaveButton();
+    nameInput.addEventListener('input', () => {
+      clearError(nameInput, $('#settings-name-error'));
+      clearSettingsSuccess();
+      updateSettingsSaveButton();
+    });
+    saveNameBtn.addEventListener('click', handleSaveName);
+  }
+
+  deleteAccountBtn?.addEventListener('click', handleDeleteAccount);
+
+  if (window.location.hash === '#settings') {
+    requestAnimationFrame(() => $('#settings')?.scrollIntoView({ block: 'start' }));
+  }
+}
+
+/**
+ * Keep the display-name save control disabled until there is a changed value
+ */
+function updateSettingsSaveButton() {
+  const nameInput = $('#settings-name');
+  const saveNameBtn = $('#save-name-btn');
+
+  if (!nameInput || !saveNameBtn) return;
+
+  const value = nameInput.value.trim();
+  const disabled = !value || value === currentUser?.name;
+  saveNameBtn.disabled = disabled;
+  saveNameBtn.setAttribute('aria-disabled', String(disabled));
+}
+
+/**
+ * Clear the inline display-name success message
+ */
+function clearSettingsSuccess() {
+  const successEl = $('#settings-name-success');
+  if (!successEl) return;
+
+  successEl.textContent = '';
+  successEl.hidden = true;
+  successEl.classList.remove('profile-settings__message--visible');
+}
+
+/**
+ * Show the inline display-name success message
+ */
+function showSettingsSuccess() {
+  const successEl = $('#settings-name-success');
+  if (!successEl) return;
+
+  successEl.textContent = 'Name updated';
+  successEl.hidden = false;
+  requestAnimationFrame(() => {
+    if (!successEl.hidden) {
+      successEl.classList.add('profile-settings__message--visible');
+    }
   });
 }
 
@@ -255,49 +324,79 @@ async function handleSaveName() {
 
   if (!name) {
     showError(nameInput, errorEl, 'Name is required');
+    clearSettingsSuccess();
+    updateSettingsSaveButton();
+    nameInput.focus();
     return;
   }
 
   if (name.length < 2) {
     showError(nameInput, errorEl, 'Name must be at least 2 characters');
+    clearSettingsSuccess();
+    updateSettingsSaveButton();
+    nameInput.focus();
+    return;
+  }
+
+  if (name.length > 50) {
+    showError(nameInput, errorEl, 'Name must be 50 characters or fewer');
+    clearSettingsSuccess();
+    updateSettingsSaveButton();
+    nameInput.focus();
+    return;
+  }
+
+  if (/[<>]/.test(name)) {
+    showError(nameInput, errorEl, 'Display name cannot contain HTML characters');
+    clearSettingsSuccess();
+    updateSettingsSaveButton();
+    nameInput.focus();
     return;
   }
 
   clearError(nameInput, errorEl);
+  clearSettingsSuccess();
 
   // Disable button
   if (saveBtn) {
     saveBtn.disabled = true;
+    saveBtn.setAttribute('aria-disabled', 'true');
     saveBtn.textContent = 'Saving...';
   }
 
   try {
     const updated = updateUser({ name });
-    if (updated) {
-      currentUser = updated;
-      // Update header display
-      const nameEl = $('#profile-name');
-      if (nameEl) nameEl.textContent = updated.name;
-      const avatarEl = $('#profile-avatar');
-      if (avatarEl) avatarEl.textContent = updated.initials;
+    if (!updated) throw new Error('No authenticated user was updated');
 
-      await alert({
-        title: 'Saved',
-        message: 'Your name has been updated.',
-      });
-    }
+    currentUser = updated;
+    // Update the profile header immediately and notify the shared site header.
+    const nameEl = $('#profile-name');
+    if (nameEl) nameEl.textContent = updated.name;
+    const avatarEl = $('#profile-avatar');
+    if (avatarEl) avatarEl.textContent = updated.initials;
+    window.dispatchEvent(new CustomEvent('auth:login', { detail: { user: updated } }));
+    showSettingsSuccess();
+    nameInput.focus();
   } catch (error) {
     console.error('Failed to save name:', error);
-    await alert({
-      title: 'Error',
-      message: 'Failed to save changes. Please try again.',
-    });
+    showError(nameInput, errorEl, 'Failed to save changes. Please try again.');
+    nameInput.focus();
   } finally {
     if (saveBtn) {
-      saveBtn.disabled = false;
       saveBtn.textContent = 'Save Changes';
     }
+    updateSettingsSaveButton();
   }
+}
+
+/**
+ * Show the prototype limitation for account deletion
+ */
+async function handleDeleteAccount() {
+  await alert({
+    title: 'Delete Account',
+    message: 'Account deletion is not available in this prototype.',
+  });
 }
 
 /**
@@ -330,7 +429,7 @@ function showError(input, errorEl, message) {
     errorEl.hidden = false;
   }
   input.setAttribute('aria-invalid', 'true');
-  input.style.borderColor = 'var(--color-error)';
+  input.classList.add('profile-settings__input--error');
 }
 
 /**
@@ -344,7 +443,7 @@ function clearError(input, errorEl) {
     errorEl.hidden = true;
   }
   input.removeAttribute('aria-invalid');
-  input.style.borderColor = '';
+  input.classList.remove('profile-settings__input--error');
 }
 
 // Initialize on DOM ready

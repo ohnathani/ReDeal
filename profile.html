@@ -127,61 +127,108 @@
         </section>
 
         <!-- Settings -->
-        <section class="profile-section" id="settings-section" aria-labelledby="settings-heading">
+        <section class="profile-section" id="settings" aria-labelledby="settings-heading">
           <header class="profile-section__header">
             <h2 id="settings-heading" class="profile-section__title">Settings</h2>
           </header>
           <div class="profile-section__content">
-            <div class="settings-form" id="settings-form">
-              <div class="form-group">
-                <label for="settings-name" class="form-label">Display Name</label>
-                <input type="text" id="settings-name" class="form-input" autocomplete="name">
-                <span class="form-error" id="settings-name-error" role="alert" hidden></span>
-              </div>
-              <div class="form-actions">
-                <button type="button" class="btn btn--primary" id="save-name-btn">Save Changes</button>
-              </div>
-            </div>
+            <div class="profile-settings" id="settings-form">
+              <section class="profile-settings__section" aria-labelledby="display-name-heading">
+                <div>
+                  <h3 id="display-name-heading" class="profile-settings__label">Display Name</h3>
+                  <p class="profile-settings__helper">This name appears on your listings and profile.</p>
+                </div>
+                <label for="settings-name" class="visually-hidden">Display Name</label>
+                <input type="text" id="settings-name" class="form-input" autocomplete="name" maxlength="50" aria-describedby="settings-name-error settings-name-success">
+                <span class="profile-settings__message profile-settings__message--error" id="settings-name-error" role="alert" hidden></span>
+                <span class="profile-settings__message profile-settings__message--success" id="settings-name-success" role="status" hidden></span>
+                <button type="button" class="btn btn--primary profile-settings__save-btn" id="save-name-btn" disabled aria-disabled="true">Save Changes</button>
+              </section>
 
-            <div class="settings-divider"></div>
+              <section class="profile-settings__section" aria-labelledby="email-heading">
+                <div>
+                  <h3 id="email-heading" class="profile-settings__label">Email</h3>
+                  <p class="profile-settings__helper">Email cannot be changed in this demo.</p>
+                </div>
+                <label for="settings-email" class="visually-hidden">Email</label>
+                <input type="email" id="settings-email" class="form-input" autocomplete="email" disabled aria-disabled="true">
+              </section>
 
-            <div class="settings-form">
-              <h3 class="settings-form__title">Change Password</h3>
-              <p class="settings-form__description">Password change is not available in this prototype.</p>
-              <div class="form-group">
-                <label for="current-password" class="form-label">Current Password</label>
-                <input type="password" id="current-password" class="form-input" disabled>
-              </div>
-              <div class="form-group">
-                <label for="new-password" class="form-label">New Password</label>
-                <input type="password" id="new-password" class="form-input" disabled>
-              </div>
-              <div class="form-group">
-                <label for="confirm-new-password" class="form-label">Confirm New Password</label>
-                <input type="password" id="confirm-new-password" class="form-input" disabled>
-              </div>
-              <button type="button" class="btn btn--secondary" disabled>Change Password</button>
-            </div>
+              <section class="profile-settings__section" aria-labelledby="password-heading">
+                <div>
+                  <h3 id="password-heading" class="profile-settings__label">Change Password</h3>
+                  <p class="profile-settings__helper">Password change coming in a future update.</p>
+                </div>
+                <div class="profile-settings__fields">
+                  <div class="form-group">
+                    <label for="current-password" class="form-label">Current Password</label>
+                    <input type="password" id="current-password" class="form-input" disabled aria-disabled="true" autocomplete="current-password">
+                  </div>
+                  <div class="form-group">
+                    <label for="new-password" class="form-label">New Password</label>
+                    <input type="password" id="new-password" class="form-input" disabled aria-disabled="true" autocomplete="new-password">
+                  </div>
+                  <div class="form-group">
+                    <label for="confirm-new-password" class="form-label">Confirm New Password</label>
+                    <input type="password" id="confirm-new-password" class="form-input" disabled aria-disabled="true" autocomplete="new-password">
+                  </div>
+                </div>
+                <button type="button" class="btn btn--secondary" disabled aria-disabled="true">Update Password</button>
+              </section>
 
-            <div class="settings-divider"></div>
+              <section class="profile-settings__section" aria-labelledby="notifications-heading">
+                <div>
+                  <h3 id="notifications-heading" class="profile-settings__label">Notification Preferences</h3>
+                  <p class="profile-settings__helper">Notifications coming in a future update.</p>
+                </div>
+                <div class="profile-settings__toggle-group">
+                  <label class="profile-settings__toggle" for="email-notifications">
+                    <input type="checkbox" id="email-notifications" disabled aria-disabled="true">
+                    <span>Email notifications</span>
+                  </label>
+                  <label class="profile-settings__toggle" for="push-notifications">
+                    <input type="checkbox" id="push-notifications" disabled aria-disabled="true">
+                    <span>Push notifications</span>
+                  </label>
+                </div>
+              </section>
 
-            <div class="settings-form settings-form--danger">
-              <h3 class="settings-form__title">Delete Account</h3>
-              <p class="settings-form__description">Account deletion is not available in this prototype.</p>
-              <button type="button" class="btn btn--ghost btn--destructive" disabled>Delete Account</button>
-            </div>
+              <fieldset class="profile-settings__section" aria-labelledby="theme-heading">
+                <legend id="theme-heading" class="profile-settings__label">Theme</legend>
+                <p class="profile-settings__helper">Dark mode coming in a future update.</p>
+                <div class="profile-settings__radio-group">
+                  <label class="profile-settings__radio" for="theme-light">
+                    <input type="radio" id="theme-light" name="theme" value="light" checked disabled aria-disabled="true">
+                    <span>Light</span>
+                  </label>
+                  <label class="profile-settings__radio" for="theme-dark">
+                    <input type="radio" id="theme-dark" name="theme" value="dark" disabled aria-disabled="true">
+                    <span>Dark</span>
+                  </label>
+                  <label class="profile-settings__radio" for="theme-system">
+                    <input type="radio" id="theme-system" name="theme" value="system" disabled aria-disabled="true">
+                    <span>System</span>
+                  </label>
+                </div>
+              </fieldset>
 
-            <div class="settings-divider"></div>
-
-            <div class="form-actions">
-              <button type="button" class="btn btn--secondary btn--block" id="logout-btn">
-                <svg class="btn__icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
-                  <path d="M16 17l5-5-5-5"/>
-                  <path d="M21 12H9"/>
-                </svg>
-                Log Out
-              </button>
+              <section class="profile-settings__section profile-settings__danger" aria-labelledby="account-actions-heading">
+                <div>
+                  <h3 id="account-actions-heading" class="profile-settings__label">Account Actions</h3>
+                  <p class="profile-settings__helper">Manage your prototype account.</p>
+                </div>
+                <div class="profile-settings__actions">
+                  <button type="button" class="btn btn--ghost btn--destructive" id="delete-account-btn">Delete Account</button>
+                  <button type="button" class="btn btn--secondary" id="logout-btn">
+                    <svg class="btn__icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                      <path d="M16 17l5-5-5-5"/>
+                      <path d="M21 12H9"/>
+                    </svg>
+                    Log Out
+                  </button>
+                </div>
+              </section>
             </div>
           </div>
         </section>
