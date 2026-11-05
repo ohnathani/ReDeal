@@ -1,0 +1,345 @@
+\documentclass[10pt]{article}
+\usepackage[margin=0.58in]{geometry}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,shapes.geometric,fit,backgrounds,calc}
+\usepackage[most]{tcolorbox}
+\usepackage{listings}
+\usepackage{pdflscape}
+\usepackage{booktabs}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{hyperref}
+
+\definecolor{violet}{HTML}{5E17EB}
+\definecolor{lightviolet}{HTML}{8755F5}
+\definecolor{lavender}{HTML}{EEE7FF}
+\definecolor{softlavender}{HTML}{F8F5FF}
+\definecolor{mint}{HTML}{20C997}
+\definecolor{yellow}{HTML}{FFC857}
+\definecolor{darktext}{HTML}{191522}
+\definecolor{secondary}{HTML}{777180}
+\definecolor{bordergray}{HTML}{EAE7F0}
+\definecolor{warning}{HTML}{A66B00}
+\definecolor{warningbg}{HTML}{FFF8E1}
+
+\hypersetup{colorlinks=true,linkcolor=violet,urlcolor=violet,pdftitle={ReDeal Code Walkthrough}}
+\pagestyle{fancy}\fancyhf{}\lhead{\textcolor{violet}{ReDeal Code Walkthrough}}\rhead{\textcolor{secondary}{HEAD 5efe2dd}}\cfoot{\thepage}
+\titleformat{\section}{\large\bfseries\color{violet}}{\thesection}{0.5em}{}
+\titleformat{\subsection}{\normalsize\bfseries\color{darktext}}{}{0pt}{}
+\titlespacing*{\section}{0pt}{8pt}{4pt}\titlespacing*{\subsection}{0pt}{6pt}{2pt}
+\setlength{\parindent}{0pt}\setlength{\parskip}{4pt}
+
+\newcommand{\code}[1]{\texttt{#1}}
+\newcommand{\ok}{\textcolor{mint}{\textbf{WORKS}}}
+\newcommand{\sim}{\textcolor{warning}{\textbf{SIMULATED}}}
+\newcommand{\pending}{\textcolor{violet}{\textbf{PENDING}}}
+
+\newtcolorbox{infobox}{enhanced,breakable,colback=softlavender,colframe=violet,boxrule=0.7pt,arc=2mm}
+\newtcolorbox{warningbox}{enhanced,breakable,colback=warningbg,colframe=yellow,title=Prototype Limitations,fonttitle=\bfseries,coltitle=darktext,boxrule=0.8pt,arc=2mm}
+
+\lstdefinelanguage{JavaScript}{keywords={const,let,var,function,return,if,else,for,while,async,await,import,from,export,class,new,true,false,null,undefined},sensitive=true,comment=[l]{//},morecomment=[s]{/*}{*/},morestring=[b]",morestring=[b]'}
+\lstset{language=JavaScript,basicstyle=\ttfamily\scriptsize,keywordstyle=\color{violet}\bfseries,commentstyle=\color{secondary},stringstyle=\color{warning},frame=single,rulecolor=\color{bordergray},backgroundcolor=\color{softlavender},breaklines=true,showstringspaces=false,columns=fullflexible}
+
+\begin{document}
+
+\begin{center}
+{\Huge\bfseries\color{violet} ReDeal -- Code Walkthrough}\\[3pt]
+{\large\color{secondary} How the frontend is organized, how data moves, and where each action leads}\\[8pt]
+{\small November 5, 2026 \quad\textbullet\quad HEAD \code{5efe2dd} \quad\textbullet\quad Working tree clean}
+\end{center}
+
+\section{What This Project Is}
+
+ReDeal is a static, multi-page second-hand marketplace prototype for the Philippine market. Each HTML page is a real entry point, and its module script starts the controller for that page. The application uses browser APIs directly: DOM methods, events, URL parameters, and \code{localStorage}.
+
+\begin{infobox}
+\textbf{Technology boundary.} The runtime uses HTML5, CSS3, vanilla JavaScript ES modules, mock product data, local persistence, and no backend. There is no React, Vue, Angular, database, server API, or build pipeline in the application runtime.
+\end{infobox}
+
+The current source contains 15 seed products, local JPG product photographs, product-detail actions, a listing form, authentication pages, a profile page, and placeholder Messages and Requests pages. Phase 4 authentication is implemented in source but still requires browser verification before it should be presented as completely closed.
+
+\section{The Repository as a System}
+
+\begin{tabular}{@{}p{3.0cm}p{4.1cm}p{6.2cm}@{}}
+\toprule
+\textbf{Layer} & \textbf{Location} & \textbf{Responsibility} \\
+\midrule
+HTML entry points & Root \code{*.html} & Page structure, semantic landmarks, forms, navigation, and module script loading. \\
+Page controllers & \code{js/pages/} and \code{js/main.js} & Read the current URL, bind page events, validate input, call shared modules, and render page state. \\
+Components & \code{js/components/} & Reusable ProductCard, Modal, Header, and UserMenu behavior. \\
+Utilities & \code{js/utils/} & DOM querying, event delegation, debounce, focus trapping, auth guards, and favorites persistence. \\
+Data layer & \code{js/data/} & Seed products, categories, created-listing storage, and local authentication/session records. \\
+CSS layer & \code{css/} & Design tokens, reset/base styles, reusable components, and page-specific responsive styles. \\
+\bottomrule
+\end{tabular}
+
+\subsection{How a page starts}
+
+An HTML page loads CSS in the head and a module at the end of the body. The module imports only the code required by that page. \code{onReady(init)} runs the controller after the document is available.
+
+\begin{lstlisting}
+// marketplace.html
+<script type="module" src="js/pages/Marketplace.js"></script>
+
+// Marketplace.js
+import { onReady } from '../utils/events.js';
+import { products, getProducts } from '../data/products.js';
+onReady(init);
+\end{lstlisting}
+
+The browser therefore follows a predictable path: \textbf{HTML page} loads a \textbf{controller}; the controller imports \textbf{components, utilities, and data}; the data layer reads or writes \textbf{localStorage}; DOM updates show the result.
+
+\clearpage
+\section{HTML Entry Points and Where They Lead}
+
+\begin{tabular}{@{}p{3.0cm}p{3.7cm}p{6.6cm}@{}}
+\toprule
+\textbf{Page} & \textbf{Controller} & \textbf{What happens next} \\
+\midrule
+\code{index.html} & \code{main.js} & Renders the hero, feature cards, recent products, search redirect, header, and bottom navigation. \\
+\code{marketplace.html} & \code{Marketplace.js} & Reads URL parameters, initializes filters, renders product cards, and updates the URL as filters change. \\
+\code{product.html?id=N} & \code{ProductDetail.js} & Parses \code{id}, calls \code{getProduct}, renders the detail view, and binds favorites, gallery, share, message, and offer actions. \\
+\code{create-listing.html} & \code{CreateListing.js} & Requires authentication, validates fields, creates a product object, saves it, and redirects to \code{product.html?id=N}. \\
+\code{login.html} & \code{Login.js} & Validates credentials, calls \code{loginUser} or \code{demoLogin}, then redirects to the stored destination or homepage. \\
+\code{signup.html} & \code{Signup.js} & Validates name, email, password, confirmation, and terms; calls \code{registerUser}; then redirects. \\
+\code{profile.html} & \code{Profile.js} & Requires authentication, renders current-user information, own listings, favorites, statistics, settings, and logout. \\
+\code{messages.html} & \code{Messages.js} & Requires authentication and displays the current placeholder messages screen. \\
+\code{requests.html} & \code{Requests.js} & Requires authentication and displays the current placeholder requests screen. \\
+\code{sell.html} & none & Compatibility redirect to \code{create-listing.html}. \\
+\bottomrule
+\end{tabular}
+
+\subsection{The shared page shell}
+
+Most pages contain a skip link, header, main region, footer, and bottom navigation. The header includes a \code{header\_\_auth} mount point. \code{Header.js} fills that point with either Log In/Sign Up links or an authenticated avatar trigger.
+
+\begin{lstlisting}
+const authContainer = headerElement?.querySelector('.header__auth');
+if (!authContainer) return;
+
+authContainer.innerHTML = '';
+authContainer.appendChild(authActions);
+\end{lstlisting}
+
+Product Detail and Create Listing also import \code{Header.js} through small module scripts in their HTML files. The visible page remains multi-page rather than becoming a single-page application.
+
+\section{CSS and the Electric Violet Design System}
+
+\code{css/variables.css} is the design-token source of truth. Components and pages consume the tokens rather than redefining the palette.
+
+\begin{tabular}{@{}p{3.0cm}p{3.2cm}p{7.1cm}@{}}
+\toprule
+\textbf{Token group} & \textbf{Examples} & \textbf{Used for} \\
+\midrule
+Brand & \code{--color-primary}, \code{--color-primary-hover} & Primary actions, links, active states, and focus treatment. \\
+Surfaces & \code{--color-background}, \code{--color-surface}, \code{--color-lavender} & Page backgrounds, cards, selected controls, and modal surfaces. \\
+Text & \code{--color-text}, \code{--color-text-secondary}, \code{--color-text-muted} & Headings, labels, descriptions, placeholders, and disabled text. \\
+Status & \code{--color-success}, \code{--color-warning}, \code{--color-error} & Validation, warnings, errors, and confirmation states. \\
+Layout & \code{--space-*}, \code{--radius-*}, \code{--shadow-*} & Consistent spacing, rounded corners, focus rings, and elevation. \\
+\bottomrule
+\end{tabular}
+
+\code{main.css} provides reset and layout rules. \code{components.css} provides buttons, cards, forms, avatars, badges, modals, grids, and navigation. Page styles such as \code{product-detail.css}, \code{create-listing.css}, \code{login.css}, \code{signup.css}, and \code{profile.css} add only page-specific layout and state rules.
+
+\begin{infobox}
+\textbf{Responsive approach.} Base styles target small screens. CSS Grid and Flexbox expand the layout at the project breakpoints. Product detail uses a stacked mobile layout with a fixed action bar and a wider two-column desktop layout.
+\end{infobox}
+
+\clearpage
+\section{Data Layer: Products and Created Listings}
+
+\subsection{Seed products}
+
+\code{js/data/products.js} exports the 15 seed records, category and condition values, and helper functions. Each product has an ID, title, Peso price, category, condition, seller information, one image path, location, description, defects, and creation timestamp.
+
+The module imports created products from \code{storage.js} and merges them before exporting \code{products}:
+
+\begin{lstlisting}
+const createdProducts = getCreatedProducts();
+export const products = [...createdProducts, ...seedProducts];
+
+export function getProduct(id) {
+  return products.find(p => String(p.id) === String(id)) || null;
+}
+\end{lstlisting}
+
+The \code{String} coercion means URL values such as \code{?id=6} can match product IDs stored as strings or numbers. Missing and invalid IDs return \code{null}, which Product Detail converts into the Not Found state.
+
+\subsection{Marketplace processing}
+
+\code{getProducts(options)} calls \code{filterProducts} and then \code{sortProducts}. Search checks the title, category, description, and location. Category and condition are exact filters. Sorting supports newest, oldest, price-low, and price-high.
+
+\subsection{Created listings}
+
+\code{storage.js} owns the \code{redeal\_created\_products} key. \code{addCreatedProduct} prepends a new product so it appears first. \code{getNextId} checks both seed and created products to generate the next numeric ID.
+
+\code{CreateListing.js} adds the authenticated seller's name, initials, and \code{sellerId}. After saving, it navigates to the new product detail URL. On the next page load, \code{products.js} reads the created record and includes it in the marketplace catalog.
+
+\begin{tikzpicture}[
+  node distance=0.45cm and 0.8cm,
+  box/.style={rectangle,rounded corners,draw=violet,fill=lavender,align=center,minimum width=3.0cm,minimum height=0.8cm,font=\scriptsize},
+  arrow/.style={-Latex,draw=violet,line width=0.8pt}
+]
+\node[box] (form) {Create Listing form};
+\node[box,right=of form] (controller) {CreateListing.js\\validate + build};
+\node[box,right=of controller] (store) {storage.js\\localStorage};
+\node[box,below=of store] (product) {product.html?id=N\\ProductDetail.js};
+\draw[arrow] (form)--(controller);
+\draw[arrow] (controller)--(store);
+\draw[arrow] (store)--(product);
+\end{tikzpicture}
+
+\section{Authentication and Session Flow}
+
+\code{auth.js} stores three principal records:
+
+\begin{tabular}{@{}p{4.2cm}p{3.5cm}p{5.6cm}@{}}
+\toprule
+\textbf{Key} & \textbf{Owner} & \textbf{Contents} \\
+\midrule
+\code{redeal\_users} & \code{auth.js} & Registered user records, including prototype-only plaintext passwords. \\
+\code{redeal\_session} & \code{auth.js} & Current user ID, random session string, creation time, and expiry. \\
+\code{redeal\_user} & \code{auth.js} & Cached current-user object used by headers and page controllers. \\
+\code{redeal\_redirect\_after\_login} & \code{auth-guard.js} & Session-storage destination for protected-route return navigation. \\
+\bottomrule
+\end{tabular}
+
+\subsection{Login and signup}
+
+\code{Login.js} and \code{Signup.js} perform client-side validation. The submit button begins disabled in HTML. Validation runs on input, blur, or terms changes, so empty forms do not display errors immediately.
+
+On success, \code{loginUser}, \code{registerUser}, or \code{demoLogin} writes the user and session, migrates legacy favorites, dispatches \code{auth:login}, and redirects. The login page first checks \code{sessionStorage} for a destination saved by the route guard.
+
+\subsection{Route guards}
+
+Protected controllers call \code{requireAuth} before continuing. If no valid session is found, the guard stores the intended route and navigates to \code{login.html?redirect=...}. Valid sessions return the user object and allow page initialization to continue.
+
+\subsection{Header and UserMenu}
+
+\code{Header.js} renders the current auth state and listens for login/logout events. \code{UserMenu.js} creates the dropdown only when opened, traps keyboard focus inside it, closes on outside click or Escape, and calls \code{logout} for the Log Out action.
+
+\begin{tikzpicture}[
+  node distance=0.55cm and 0.8cm,
+  box/.style={rectangle,rounded corners,draw=lightviolet,fill=lightviolet!15,align=center,minimum width=2.7cm,minimum height=0.8cm,font=\scriptsize},
+  arrow/.style={-Latex,draw=violet,line width=0.8pt},
+  event/.style={-Latex,draw=mint!70!black,dashed,line width=0.8pt}
+]
+\node[box] (entry) {Login / Signup};
+\node[box,right=of entry] (page) {Login.js / Signup.js};
+\node[box,right=of page] (auth) {auth.js};
+\node[box,right=of auth] (storage) {localStorage};
+\node[box,below=of auth] (header) {Header.js};
+\node[box,right=of header] (menu) {UserMenu.js};
+\draw[arrow] (entry)--(page);\draw[arrow] (page)--(auth);\draw[arrow] (auth)--(storage);
+\draw[event] (auth)--(header);\draw[arrow] (header)--(menu);
+\end{tikzpicture}
+
+\clearpage
+\section{Favorites and Shared Components}
+
+\subsection{User-scoped favorites}
+
+\code{favorites.js} derives a storage key from the current user when no explicit ID is supplied. Authenticated data therefore uses \code{redeal\_favorites\_<userId>}; the unscoped \code{redeal\_favorites} key remains available for legacy migration.
+
+The main operations are:
+
+\begin{tabular}{@{}p{3.6cm}p{3.3cm}p{6.4cm}@{}}
+\toprule
+\textbf{Function} & \textbf{Return} & \textbf{Purpose} \\
+\midrule
+\code{getFavorites} & \code{Set} & Reads favorite IDs for the current or supplied user. \\
+\code{setFavorites} & none & Serializes a set into localStorage. \\
+\code{isFavorite} & boolean & Checks whether one product ID is stored. \\
+\code{toggleFavorite} & boolean & Adds/removes an ID and emits \code{favorites:changed}. \\
+\code{initProductFavorites} & none & Copies stored favorite state into product records before rendering. \\
+\code{migrateLegacyFavorites} & none & Copies the old shared key into the first user-scoped key. \\
+\bottomrule
+\end{tabular}
+
+Product cards and Product Detail listen to the same-document custom event so two controls on the same page can update together. Browser tabs do not synchronize because no \code{storage} event listener is implemented.
+
+\subsection{ProductCard}
+
+\code{Card.js} creates DOM nodes with \code{createElement}, sets text content for product fields, and attaches image error handling. A card click navigates to \code{product.html?id=N}; the favorite button stops propagation, calls the favorites utility, updates its pressed state, and invokes the page callback.
+
+\subsection{Modal}
+
+\code{Modal.js} creates a dialog shell, backdrop, title, body, and action footer. It traps focus, closes on Escape and backdrop interaction when configured, and returns a Promise from \code{close}. The Product Detail message and offer handlers close first, then schedule the confirmation alert after close completion.
+
+\subsection{DOM and event utilities}
+
+\code{dom.js} contains thin query wrappers, safe element creation, HTML escaping, class helpers, and CSS-variable helpers. \code{events.js} contains delegation, DOM-ready handling, debounce/throttle, custom event helpers, focus trapping, outside-click handling, and keyboard activation helpers.
+
+\begin{infobox}
+\textbf{Security boundary.} User-controlled text is generally inserted with \code{textContent} or created text nodes. Where Product Detail uses a template string for display data, it applies \code{escapeHtml}. Authentication remains prototype-only because passwords and sessions are stored in localStorage.
+\end{infobox}
+
+\section{Product Detail and Demo Journeys}
+
+\subsection{Product Detail journey}
+
+The page reads \code{window.location.search}, trims the \code{id}, looks up the record, initializes its favorite state, renders the product, and binds delegated listeners. The share action tries the Web Share API, then clipboard access, then opens a modal containing the raw current URL in an input. Thumbnail and main-image error handlers reveal the placeholder state.
+
+The strongest classroom path is:
+
+\begin{enumerate}
+  \setlength{\itemsep}{1pt}
+  \item Open Marketplace and choose a product card.
+  \item Observe the URL change to \code{product.html?id=N}.
+  \item Toggle the desktop or mobile favorite button.
+  \item Open Message Seller or Make Offer and show the prototype validation/confirmation flow.
+  \item Return to Marketplace and verify the card state in the same browser session.
+\end{enumerate}
+
+\subsection{Create Listing journey}
+
+The Create Listing controller first calls \code{requireAuth}. It validates title, price, category, condition, description, location, and image URL. It then builds a product record with the current user's seller identity, calls \code{addCreatedProduct}, and redirects to the new product detail page. On a subsequent page load, the storage record is merged with seed products by \code{products.js}.
+
+\subsection{Profile journey}
+
+Profile requires authentication at module initialization. It renders the current user's initials, name, email, guest badge when appropriate, own listings filtered by \code{sellerId}, favorites filtered by stored IDs, and settings. Name updates are persisted by \code{updateUser}; logout clears the session and redirects to the homepage.
+
+\clearpage
+\section{What Is Complete and What Is Not}
+
+\begin{tabular}{@{}p{3.8cm}p{3.2cm}p{6.3cm}@{}}
+\toprule
+\textbf{Area} & \textbf{Status} & \textbf{Explanation} \\
+\midrule
+HTML/CSS foundation & Complete & Semantic pages, responsive CSS, centralized Electric Violet tokens, and shared components exist. \\
+Home and Marketplace & Complete & Product rendering, search, filters, sorting, cards, navigation, and local image assets exist. \\
+Product Detail & Complete in source & Lookup, detail rendering, favorites, share fallback, image errors, and modal sequencing exist. Browser verification remains the final gate. \\
+Create Listing & Complete in source & Validation, seller ownership, persistence, generated IDs, and redirect flow exist. \\
+Authentication & Conditional & Auth modules, guards, sessions, header state, and profile foundation exist. Browser testing is pending. \\
+Messages and Offers & Prototype & UI confirmation only; no backend delivery. \\
+Requests & Not implemented & Page and guard exist, but request creation and seller response do not. \\
+Listing CRUD & Not implemented & Edit, delete, and archive operations are absent. \\
+Cross-tab synchronization & Not implemented & Favorites do not listen for browser \code{storage} events. \\
+\bottomrule
+\end{tabular}
+
+\begin{warningbox}
+\small
+This is not production authentication. Passwords are stored in plaintext, sessions are localStorage records, and no server can validate identity. Use fake accounts only. Clearing browser storage removes the prototype's users, sessions, favorites, and created listings.
+\end{warningbox}
+
+\section{Independent Review Notes}
+
+The Phase 4 source repair history is committed and the working tree is clean. Static JavaScript syntax checks pass, and the earlier invalid imports, Set/Array misuse, modal issues, event-name mismatch, hardcoded auth colors, and initial validation errors were repaired.
+
+Three conditions remain appropriate to verify during the next browser pass:
+
+\begin{enumerate}
+  \setlength{\itemsep}{1pt}
+  \item \code{auth.js} and \code{favorites.js} import each other directly; the cycle should be kept under review or removed.
+  \item Several page controllers still call \code{initHeader()} from auth-event handlers even though Header has an initialization guard.
+  \item The generated user-menu trigger needs explicit 44 by 44 pixel styling verification.
+\end{enumerate}
+
+\begin{tcolorbox}[colback=lavender,colframe=violet,title=Suggested Live Demonstration Order,fonttitle=\bfseries,coltitle=darktext,boxrule=0.8pt]
+\small
+Login or continue as guest; browse Marketplace; search and filter; open a product; favorite it; demonstrate Message Seller and Make Offer as prototype dialogs; create a listing; open Profile; show the listing and favorite state after reload; finish by explaining the localStorage and security limitations.
+\end{tcolorbox}
+
+\end{document}
