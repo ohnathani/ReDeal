@@ -126,6 +126,33 @@ h4 { font-size: var(--text-lg); font-weight: 600; line-height: var(--leading-nor
 .header__logo-text {
   display: none;
 }
+
+/* Brand logo is intentionally hidden across the application header. */
+.header__logo {
+  display: none;
+}
+
+.header__back {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  color: var(--color-text-secondary);
+  border-radius: var(--radius-md);
+  text-decoration: none;
+}
+
+.header__back:hover,
+.header__back:focus-visible {
+  color: var(--color-primary);
+  background: var(--color-lavender-soft);
+  text-decoration: none;
+}
+
+.header__back .header__logo-text {
+  display: none;
+}
 @media (min-width: 480px) {
   .header__logo-text {
     display: inline;
