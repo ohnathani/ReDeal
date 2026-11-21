@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="css/variables.css">
   <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/messages.css">
   <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
   <link rel="apple-touch-icon" href="assets/images/apple-touch-icon.svg">
   <link rel="manifest" href="assets/manifest.json">
@@ -17,6 +18,15 @@
 
   <header class="header" role="banner">
     <div class="header__topbar">
+      <a href="index.html" class="header__logo" aria-label="ReDeal Home">
+        <svg class="header__logo-icon" aria-hidden="true" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M16 2C8.268 2 2 8.268 2 16C2 23.732 8.268 30 16 30C23.732 30 30 23.732 30 16C30 8.268 23.732 2 16 2Z" fill="currentColor"/>
+          <path d="M16 6C21.5228 6 26 10.4772 26 16C26 21.5228 21.5228 26 16 26C10.4772 26 6 21.5228 6 16C6 10.4772 10.4772 6 16 6Z" fill="white"/>
+          <path d="M16 8C11.5817 8 8 11.5817 8 16C8 20.4183 11.5817 24 16 24C20.4183 24 24 20.4183 24 16C24 11.5817 20.4183 8 16 8Z" fill="currentColor"/>
+          <path d="M22 16C22 19.3137 19.3137 22 16 22C12.6863 22 10 19.3137 10 16C10 12.6863 12.6863 10 16 10C17.572 10 18.971 10.7891 19.9142 12H16V14H19.5V16H22V16C22 13.7909 20.2091 12 18 12C17.1716 12 16.3825 12.3536 15.8284 12.9076L18.1716 15.25L16 17.4221L13.8284 15.25L16.1716 12.9076C15.6175 12.3536 14.8284 12 14 12C11.7909 12 10 13.7909 10 16C10 18.2091 11.7909 20 14 20C15.1025 20 16.1255 19.5717 16.875 18.875L14.125 16.125L11.5779 18.6721C12.8959 19.696 14.5448 20 16 20C19.3137 20 22 17.3137 22 16Z" fill="white"/>
+        </svg>
+        <span class="header__logo-text">ReDeal</span>
+      </a>
       <nav class="header__nav" aria-label="Primary navigation">
         <a href="index.html" class="header__nav-link">Home</a>
         <a href="marketplace.html" class="header__nav-link">Marketplace</a>
@@ -31,26 +41,54 @@
         <circle cx="11" cy="11" r="8"/>
         <path d="M21 21l-4.35-4.35"/>
       </svg>
-      <input type="search" class="header__search-input" placeholder="Search messages..." aria-label="Search messages">
+      <input type="search" class="header__search-input" id="message-search" placeholder="Search messages..." aria-label="Search messages">
     </div>
   </header>
 
-  <main id="main" class="main" role="main">
-    <div class="marketplace-header">
-      <h1 class="marketplace-title">Messages</h1>
-      <p class="marketplace-subtitle">Chat securely with buyers and sellers. No phone numbers needed.</p>
-    </div>
+  <main id="main" class="main messages-main" role="main">
+    <h1 class="visually-hidden">Messages</h1>
+    <div class="chat" id="chat">
+      <!-- Conversation list -->
+      <section class="chat__list" aria-label="Conversations">
+        <div class="chat__tabs" role="group" aria-label="Filter conversations">
+          <button type="button" class="chat__tab chat__tab--active" data-filter="all" aria-pressed="true">All</button>
+          <button type="button" class="chat__tab" data-filter="unread" aria-pressed="false">Unread</button>
+        </div>
+        <ul class="chat__conversations" id="conversation-list"></ul>
+        <p class="chat__empty" id="list-empty" hidden>No conversations found.</p>
+      </section>
 
-    <section class="marketplace-grid-section" aria-labelledby="messages-title">
-      <div class="empty-state">
-        <svg class="empty-state__icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-        </svg>
-        <h3 class="empty-state__title">Messages coming soon</h3>
-        <p class="empty-state__description">This feature is under development. You'll be able to chat directly with other users about listings.</p>
-        <a href="marketplace.html" class="btn btn--primary">Browse Marketplace</a>
+      <!-- Conversation thread -->
+      <section class="chat__thread" aria-labelledby="thread-name">
+        <header class="chat__thread-header">
+          <button type="button" class="chat__back" id="back-btn" aria-label="Back to conversations">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          </button>
+          <h2 class="chat__thread-name" id="thread-name" tabindex="-1"></h2>
+        </header>
+        <a class="chat__product" id="thread-product" href="product.html">
+          <img id="thread-product-image" alt="" width="48" height="48" hidden>
+          <span class="chat__product-text">
+            <span id="thread-product-title"></span>
+            <span id="thread-product-price"></span>
+          </span>
+        </a>
+        <div class="chat__log" id="message-log" role="log" aria-live="polite" aria-label="Messages"></div>
+        <p class="chat__typing" id="typing" role="status" hidden></p>
+        <div class="chat__quick" id="quick-replies" role="group" aria-label="Quick replies"></div>
+        <p class="chat__notice">Prototype: replies are simulated and stored only in this browser.</p>
+        <form class="chat__composer" id="composer">
+          <label for="message-input" class="visually-hidden">Message</label>
+          <textarea id="message-input" class="form-input chat__input" rows="1" maxlength="500" placeholder="Write a message..."></textarea>
+          <button type="submit" class="btn btn--primary chat__send" id="send-btn" disabled>Send</button>
+        </form>
+      </section>
+
+      <div class="chat__placeholder">
+        <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        <p>Select a conversation to start chatting.</p>
       </div>
-    </section>
+    </div>
   </main>
 
   <footer class="footer" role="contentinfo">
