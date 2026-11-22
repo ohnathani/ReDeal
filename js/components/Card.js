@@ -6,6 +6,19 @@
 import { createElement, escapeHtml } from '../utils/dom.js';
 import { toggleFavorite as toggleFavoriteUtil, isFavorite } from '../utils/favorites.js';
 
+const HEART_PATH = 'M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z';
+const TAG_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><path d="M7 7h.01"/></svg>';
+
+/**
+ * Heart icon markup. Built as a string and set with innerHTML so the browser
+ * creates a real SVG element (document.createElement('svg') does not render).
+ * @param {boolean} filled
+ * @returns {string}
+ */
+function heartIcon(filled) {
+  return `<svg viewBox="0 0 24 24" fill="${filled ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${HEART_PATH}"/></svg>`;
+}
+
 /**
  * Product Card Component
  */
@@ -20,7 +33,8 @@ export class ProductCard {
    * @param {string} data.sellerName - Seller name
    * @param {string} data.sellerInitials - Seller initials
    * @param {string} data.image - Image URL
-   * @param {boolean} data.isFavorite - Whether favorited
+   * @param {number} [data.likes] - Likes from other people (the current user's own like is added on top)
+   * @param {boolean} [data.openToOffers] - Seller accepts offers (shows the "Open to offers" pill)
    * @param {Function} [data.onClick] - Click handler
    * @param {Function} [data.onFavorite] - Favorite toggle handler
    */
@@ -33,7 +47,10 @@ export class ProductCard {
     this.sellerName = data.sellerName;
     this.sellerInitials = data.sellerInitials;
     this.image = data.image;
-    this.isFavorite = data.isFavorite || false;
+    // Saved favorites are the source of truth for the heart, so every page agrees
+    this.isFavorite = isFavorite(String(data.id));
+    this.likes = Number(data.likes) || 0;
+    this.openToOffers = data.openToOffers === true;
     this.onClick = data.onClick;
     this.onFavorite = data.onFavorite;
   }
@@ -43,6 +60,7 @@ export class ProductCard {
       class: 'product-card',
       dataset: { id: this.id },
     });
+    this.el = article;
 
     // Image container with price tag and favorite button
     const imageContainer = createElement('div', { class: 'product-card__image-container' });
@@ -79,24 +97,27 @@ export class ProductCard {
       class: 'product-card__price-tag',
     }, escapeHtml(this.price)));
 
-    // Favorite button
+    // Overlay chips on the image: offers (bottom-left), heart + likes (bottom-right)
+    if (this.openToOffers) {
+      imageContainer.appendChild(createElement('span', {
+        class: 'product-card__offer',
+        html: `${TAG_ICON}<span class="product-card__offer-text">Open to offers</span>`,
+      }));
+    }
+
+    // Favorite button: heart + like count (overlaid on the image, bottom-right)
     const favoriteBtn = createElement('button', {
-      class: `product-card__favorite ${this.isFavorite ? 'product-card__favorite--active' : ''}`,
-      'aria-label': this.isFavorite ? 'Remove from favorites' : 'Add to favorites',
-      'aria-pressed': this.isFavorite,
+      class: `product-card__favorite ${this.isFavorite ? 'product-card__favorite--active' : ''}`.trim(),
+      type: 'button',
+      'aria-label': this.favoriteLabel(),
+      'aria-pressed': String(this.isFavorite),
+      html: this.favoriteContent(),
       onclick: (e) => {
         e.preventDefault();
         e.stopPropagation();
         this.toggleFavorite();
       },
-    }, createElement('svg', {
-      class: 'icon icon--sm',
-      viewBox: '0 0 24 24',
-      fill: this.isFavorite ? 'currentColor' : 'none',
-      stroke: 'currentColor',
-      'stroke-width': '2',
-      'aria-hidden': 'true',
-    }, createElement('path', { d: 'M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z' })));
+    });
 
     imageContainer.appendChild(favoriteBtn);
 
@@ -141,9 +162,11 @@ export class ProductCard {
 
     // Keyboard support
     article.addEventListener('keydown', (e) => {
+      // Let the favorite button handle its own Enter/Space
+      if (e.target.closest('.product-card__favorite')) return;
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
-        if (this.onClick && !e.target.closest('.product-card__favorite')) {
+        if (this.onClick) {
           this.onClick(this.id, e);
         }
       }
@@ -155,14 +178,28 @@ export class ProductCard {
     return article;
   }
 
+  /** Likes shown on the card: other people's likes plus the current user's own */
+  get likeCount() {
+    return this.likes + (this.isFavorite ? 1 : 0);
+  }
+
+  favoriteContent() {
+    return `${heartIcon(this.isFavorite)}<span class="product-card__likes" aria-hidden="true">${this.likeCount}</span>`;
+  }
+
+  favoriteLabel() {
+    const n = this.likeCount;
+    return `${this.isFavorite ? 'Remove from favorites' : 'Add to favorites'} (${n} ${n === 1 ? 'like' : 'likes'})`;
+  }
+
   toggleFavorite() {
     this.isFavorite = toggleFavoriteUtil(this.id);
-    const favoriteBtn = this.element?.querySelector('.product-card__favorite');
+    const favoriteBtn = (this.el ?? this.element)?.querySelector('.product-card__favorite');
     if (favoriteBtn) {
       favoriteBtn.classList.toggle('product-card__favorite--active', this.isFavorite);
-      favoriteBtn.setAttribute('aria-label', this.isFavorite ? 'Remove from favorites' : 'Add to favorites');
-      favoriteBtn.setAttribute('aria-pressed', this.isFavorite);
-      favoriteBtn.querySelector('svg').setAttribute('fill', this.isFavorite ? 'currentColor' : 'none');
+      favoriteBtn.setAttribute('aria-label', this.favoriteLabel());
+      favoriteBtn.setAttribute('aria-pressed', String(this.isFavorite));
+      favoriteBtn.innerHTML = this.favoriteContent();
     }
     if (this.onFavorite) {
       this.onFavorite(this.id, this.isFavorite);
