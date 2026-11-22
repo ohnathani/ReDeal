@@ -13,7 +13,7 @@
   <link rel="apple-touch-icon" href="assets/images/apple-touch-icon.svg">
   <link rel="manifest" href="assets/manifest.json">
 </head>
-<body>
+<body class="profile-page">
   <a href="#main" class="skip-link">Skip to main content</a>
 
   <header class="header" role="banner">
@@ -45,27 +45,34 @@
           <div class="avatar avatar--xl" id="profile-avatar" aria-hidden="true"></div>
         </div>
         <div class="profile-header__info">
+          <p class="profile-header__eyebrow">Your account</p>
           <h1 id="profile-name" class="profile-header__name"></h1>
           <p id="profile-email" class="profile-header__email"></p>
-          <div id="profile-badges" class="profile-header__badges" aria-label="Account status"></div>
+          <div id="profile-badges" class="profile-header__badges" aria-label="Account type"></div>
+        </div>
+        <div class="profile-header__actions">
+          <a href="#settings" class="btn btn--secondary">Edit Profile</a>
+          <a href="create-listing.html" class="btn btn--primary">Create Listing</a>
         </div>
       </section>
 
+      <nav class="profile-shortcuts" aria-label="Profile sections">
+        <a href="#my-listings-section">My Listings</a>
+        <a href="#favorites-section">Favorites</a>
+        <a href="#settings">Settings</a>
+      </nav>
+
       <!-- Stats -->
       <section class="profile-stats" aria-labelledby="stats-heading">
-        <h2 id="stats-heading" class="visually-hidden">Profile Statistics</h2>
+        <h2 id="stats-heading" class="visually-hidden">Profile overview</h2>
         <div class="profile-stats__grid">
           <article class="stat-card">
-            <div class="stat-card__value" id="stat-listings">0</div>
-            <div class="stat-card__label">Listings</div>
+            <p class="stat-card__value" id="stat-listings">0</p>
+            <p class="stat-card__label">Listings</p>
           </article>
           <article class="stat-card">
-            <div class="stat-card__value" id="stat-favorites">0</div>
-            <div class="stat-card__label">Favorites</div>
-          </article>
-          <article class="stat-card">
-            <div class="stat-card__value" id="stat-reviews">0</div>
-            <div class="stat-card__label">Reviews</div>
+            <p class="stat-card__value" id="stat-favorites">0</p>
+            <p class="stat-card__label">Favorites</p>
           </article>
         </div>
       </section>
@@ -79,7 +86,7 @@
             <a href="create-listing.html" class="btn btn--primary btn--sm">Create Listing</a>
           </header>
           <div class="profile-section__content">
-            <div class="grid grid--2 grid--md-3" id="my-listings-grid" role="list">
+            <div class="profile-products-grid" id="my-listings-grid">
               <!-- Rendered by JS -->
             </div>
             <div class="empty-state" id="my-listings-empty" hidden>
@@ -103,7 +110,7 @@
             <h2 id="favorites-heading" class="profile-section__title">Favorites</h2>
           </header>
           <div class="profile-section__content">
-            <div class="grid grid--2 grid--md-3" id="favorites-grid" role="list">
+            <div class="profile-products-grid" id="favorites-grid">
               <!-- Rendered by JS -->
             </div>
             <div class="empty-state" id="favorites-empty" hidden>
@@ -227,16 +234,16 @@
     </div>
 
     <!-- Unauthenticated state -->
-    <div id="profile-unauthenticated" hidden>
+    <div id="profile-unauthenticated" class="profile-unauthenticated" hidden>
       <div class="auth-card">
-        <div class="empty-state" style="text-align: center; padding: var(--space-xl);">
-          <svg class="empty-state__icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin: 0 auto var(--space-md);">
+        <div class="empty-state profile-unauthenticated__state">
+          <svg class="empty-state__icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
             <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
             <circle cx="12" cy="7" r="4"/>
           </svg>
           <h3 class="empty-state__title">Please log in</h3>
           <p class="empty-state__description">You need to be logged in to view your profile.</p>
-          <div style="display: flex; gap: var(--space-sm); justify-content: center; flex-wrap: wrap;">
+          <div class="profile-unauthenticated__actions">
             <a href="login.html" class="btn btn--primary">Log In</a>
             <a href="signup.html" class="btn btn--secondary">Sign Up</a>
           </div>
