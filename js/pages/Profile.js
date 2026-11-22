@@ -3,12 +3,12 @@
  * Renders user profile, listings, favorites, and settings
  */
 
-import { $, $$, createElement, escapeHtml, empty } from '../utils/dom.js';
+import { $, createElement } from '../utils/dom.js';
 import { onReady } from '../utils/events.js';
 import { requireAuth } from '../utils/auth-guard.js';
 import { getCurrentUser, logout, updateUser } from '../data/auth.js';
 import { getCreatedProducts } from '../data/storage.js';
-import { getFavorites, isFavorite as isFavoriteUtil } from '../utils/favorites.js';
+import { getFavorites } from '../utils/favorites.js';
 import { ProductCard } from '../components/Card.js';
 import { alert, confirm } from '../components/Modal.js';
 import { initHeader, setCurrentPage } from '../components/Header.js';
@@ -83,7 +83,6 @@ async function renderProfile() {
 
   if (avatar) {
     avatar.textContent = currentUser.initials;
-    avatar.style.background = getAvatarColor(currentUser.id);
   }
   if (name) name.textContent = currentUser.name;
   if (email) email.textContent = currentUser.email;
@@ -111,29 +110,6 @@ async function renderProfile() {
 }
 
 /**
- * Generate consistent avatar color from user ID
- * @param {string} id
- * @returns {string}
- */
-function getAvatarColor(id) {
-  const colors = [
-    'linear-gradient(135deg, #5E17EB, #8755F5)',
-    'linear-gradient(135deg, #20C997, #40E0B0)',
-    'linear-gradient(135deg, #FFC857, #FFD97D)',
-    'linear-gradient(135deg, #DC3545, #FF6B6B)',
-    'linear-gradient(135deg, #16865F, #2ECC71)',
-    'linear-gradient(135deg, #6C5CE7, #A29BFE)',
-    'linear-gradient(135deg, #FD9644, #FDCB6E)',
-    'linear-gradient(135deg, #E84393, #FD79A8)',
-  ];
-  let hash = 0;
-  for (let i = 0; i < id.length; i++) {
-    hash = id.charCodeAt(i) + ((hash << 5) - hash);
-  }
-  return colors[Math.abs(hash) % colors.length];
-}
-
-/**
  * Load and render profile statistics
  */
 async function loadStats() {
@@ -143,11 +119,9 @@ async function loadStats() {
 
   const statListings = $('#stat-listings');
   const statFavorites = $('#stat-favorites');
-  const statReviews = $('#stat-reviews');
 
   if (statListings) statListings.textContent = userProducts.length;
   if (statFavorites) statFavorites.textContent = favorites.size;
-  if (statReviews) statReviews.textContent = '0'; // Placeholder
 }
 
 /**
