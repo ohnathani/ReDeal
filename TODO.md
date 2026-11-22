@@ -13,13 +13,23 @@ Task tracking for the ReDeal project.
 
 ## Existing Unfinished Features
 
-*None identified — Phase 1 and Phase 2 complete.*
+| Status | Priority | Type | Task | Details |
+|--------|----------|------|------|---------|
+| `[ ]` | MED | FEAT | Request system follow-through | Requests can be posted and filtered; seller inbox and accept/decline are not built (deferred in `IMPLEMENTATION_LOG.md`) |
+| `[ ]` | MED | FEAT | Edit / delete / archive listing | Deferred from Phase 3 |
+| `[ ]` | MED | FEAT | Image upload for listings | Create Listing accepts an image URL only |
+| `[ ]` | LOW | FEAT | Draft auto-save in Create Listing | Progress is saved only on submit |
+| `[ ]` | LOW | FEAT | Real messaging | Messages are simulated and stored in the browser; real chat needs a backend, which is out of scope |
 
 ---
 
 ## Known Bugs
 
-*None identified — all Luna Review 1-3 Priority 0, 1, 2 conditions resolved.*
+*No confirmed bugs. Items to check:*
+
+| Status | Priority | Type | Task | Details |
+|--------|----------|------|------|---------|
+| `[ ]` | LOW | FIX | Verify header search on `index.html` and `product.html` | The search inputs have no `id`; confirm they do something, or wire them to the Marketplace search |
 
 ---
 
@@ -27,10 +37,15 @@ Task tracking for the ReDeal project.
 
 | Status | Priority | Type | Task | Details |
 |--------|----------|------|------|---------|
+| `[ ]` | MED | TECH | Verify Phase 4 in the browser | Auth was implemented and source-fixed (Luna Review 14), but no browser close-out is recorded in `IMPLEMENTATION_LOG.md`. Run the checklist in `PHASE_4_AUTH_PLAN.md` section 13 and log the result |
+| `[ ]` | MED | TECH | Plaintext passwords in localStorage | Acceptable only for this prototype with fake credentials. Do not deploy without real backend auth |
+| `[ ]` | MED | DOCS | Bring README and ARCHITECTURE up to date | Project structure should list `js/pages/`, `js/data/`, `tools/`, and the extra CSS and HTML pages |
 | `[ ]` | LOW | TECH | Cross-tab favorites sync | Add `storage` event listener for cross-tab sync |
 | `[ ]` | LOW | TECH | Multi-image gallery support | Extend product data model to support multiple images |
 | `[ ]` | LOW | TECH | Figma design directory cleanup | Remove or archive `figma_design/` directory |
-| `[ ]` | LOW | TECH | Unsplash images in data layer | Replace placeholder images with local assets |
+| `[ ]` | LOW | TECH | Convert product photos to WebP | Local JPGs added about 1 MB to the repo (noted in the log for Phase 9 polish) |
+| `[ ]` | LOW | TECH | Accessibility audit | Planned as Phase 5 in the log |
+| `[ ]` | LOW | TECH | TeleportHQ cleanup | Planned as Phase 6 in the log |
 
 ---
 
@@ -42,25 +57,28 @@ Task tracking for the ReDeal project.
 | `[x]` | HIGH | FEAT | Set up CSS foundation | Create `css/variables.css`, `css/main.css`, `css/components.css` with Electric Violet design tokens |
 | `[x]` | HIGH | FEAT | Set up JS foundation | Create `js/main.js`, `js/utils/dom.js`, `js/utils/events.js` |
 | `[x]` | MED | FEAT | Create reusable components | Button, Card, Form, Modal components in `js/components/` |
-| `[ ]` | MED | FEAT | Add icon system | Create SVG sprite sheet and `Icon` component |
 | `[x]` | MED | TECH | Configure .gitignore | Add appropriate exclusions per AGENTS.md |
+| `[ ]` | MED | FEAT | Add icon system | The same SVGs are pasted into every page; create an SVG sprite sheet and `Icon` component |
+| `[ ]` | MED | FEAT | Search improvements | Debounced search and suggestions |
 | `[ ]` | LOW | DOCS | Add component documentation | Document each component with usage examples |
 | `[ ]` | LOW | FEAT | Add responsive navigation | Mobile hamburger menu with keyboard support |
 | `[ ]` | LOW | FEAT | Add theme support | Light/dark mode with CSS variables and localStorage |
+| `[ ]` | LOW | FEAT | Rating/review system | Seller and product ratings |
+| `[ ]` | LOW | FEAT | PWA enhancements | Offline support, install prompt |
 
 ---
 
 ## Prioritized Tasks (Next Steps)
 
-1. **Phase 3 Planning** — Define scope for user auth, messaging, offers, dashboard, search, image upload, ratings, PWA
-2. **User authentication flow** — Login/signup pages with form validation
-3. **Real messaging system** — WebSocket/backend integration
-4. **Offer/transaction system** — Backend integration for offers
-5. **User dashboard** — My listings, favorites, purchases, sales
-6. **Search improvements** — Debounced, suggestions
-7. **Image upload for listings** — Client-side preview, validation
-8. **Rating/review system** — Seller and product ratings
-9. **PWA enhancements** — Offline support, install prompt
+1. **Verify Phase 4 in the browser** and record the result in `IMPLEMENTATION_LOG.md`
+2. **Update README.md and ARCHITECTURE.md** to match the current file structure
+3. **Request system** — seller inbox, accept/decline
+4. **Edit / delete listing**
+5. **Image upload for listings** — client-side preview and validation
+6. **Search improvements** — debounced, suggestions
+7. **Icon system** — remove duplicated SVG markup
+8. **Rating/review system**
+9. **PWA enhancements**
 
 ---
 
@@ -79,6 +97,12 @@ Task tracking for the ReDeal project.
 | 2026-11-04 | Luna Review 1 fixes | Git integrity, imports, bottom nav, modal buttons, duplicate H1, touch targets |
 | 2026-11-04 | Luna Review 2 fixes | Hardcoded colors, gallery counter, PWA icons, thumbnail errors, prompt/alert replacement |
 | 2026-11-04 | Luna Review 3 fixes | P0 modal regression, share fallback inline JS, PWA manifest routes, log accuracy |
+| 2026-11-05 | Phase 3: Create Listing | Form, validation, localStorage persistence; closed after browser smoke test (10/10 pass) |
+| 2026-11-05 | Phase 4: Authentication (implemented) | Login, signup, session, route guards, header auth, per-user favorites, profile page, guest bypass; Luna Review 14 fixes applied. Browser verification not yet recorded |
+| 2026-11-05 | Real product images | 15 local photos replace SVG placeholders |
+| 2026-11-22 | Requests page | Post form, category chips, search, sample requests |
+| 2026-11-22 | Messages page | Conversation list, thread, quick replies; replies simulated |
+| 2026-11-22 | Page consistency fixes | Requests page uses shared layout; logo removed from messages; `header__auth` added to login/signup; favicon tool moved to `tools/`; `sell.html` removed; manifest paths fixed (console clean on Requests page) |
 
 ---
 
