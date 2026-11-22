@@ -30,6 +30,13 @@
   font-size: var(--text-2xl);
 }
 
+.profile-header__avatar .avatar--xl img {
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  object-fit: cover;
+}
+
 .profile-header__info {
   flex: 1;
   min-width: 0;
@@ -53,6 +60,20 @@
   white-space: nowrap;
 }
 
+.profile-header__username {
+  margin: 0 0 var(--space-xs);
+  color: var(--color-primary);
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-medium);
+}
+
+.profile-header__bio {
+  margin: 0 0 var(--space-sm);
+  color: var(--color-text-secondary);
+  font-size: var(--text-sm);
+  overflow-wrap: anywhere;
+}
+
 .profile-header__email {
   margin: 0 0 var(--space-sm);
   overflow: hidden;
@@ -60,6 +81,12 @@
   font-size: var(--text-sm);
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.profile-header__member-since {
+  margin: 0 0 var(--space-sm);
+  color: var(--color-text-muted);
+  font-size: var(--text-xs);
 }
 
 .profile-header__badges {
@@ -182,6 +209,32 @@
   gap: var(--space-md);
 }
 
+.profile-listing {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.profile-listing__status {
+  align-self: flex-start;
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-full);
+  background: var(--color-success-bg);
+  color: var(--color-success);
+  font-size: var(--text-xs);
+  font-weight: var(--font-weight-semibold);
+}
+
+.profile-listing__status--sold {
+  background: var(--color-lavender);
+  color: var(--color-primary);
+}
+
+.profile-listing .product-card {
+  flex: 1;
+}
+
 .profile-section__content .empty-state {
   padding: var(--space-xl) var(--space-md);
   text-align: center;
@@ -219,13 +272,6 @@
   padding-top: var(--space-xl);
 }
 
-.profile-settings__section.profile-settings__danger {
-  border: 1px solid var(--color-error);
-  border-radius: var(--radius-md);
-  padding: var(--space-lg);
-  background: var(--color-error-bg);
-}
-
 .profile-settings__label {
   margin: 0;
   color: var(--color-text);
@@ -239,24 +285,18 @@
   font-size: var(--text-sm);
 }
 
-.profile-settings__fields,
-.profile-settings__toggle-group,
-.profile-settings__radio-group {
+.profile-settings__fields {
   display: grid;
   gap: var(--space-md);
 }
 
-.profile-settings__toggle,
-.profile-settings__radio {
-  display: flex;
-  align-items: center;
-  gap: var(--space-sm);
-  color: var(--color-text);
+.profile-settings__bio-field {
+  grid-column: 1 / -1;
 }
 
-.profile-settings__toggle input,
-.profile-settings__radio input {
-  accent-color: var(--color-primary);
+.profile-settings__bio-field textarea {
+  min-height: 6rem;
+  resize: vertical;
 }
 
 .profile-settings__save-btn {
@@ -286,25 +326,8 @@
   color: var(--color-error);
 }
 
-.profile-settings__input--error {
+.profile-settings .form-input[aria-invalid="true"] {
   border-color: var(--color-error);
-}
-
-.btn--destructive {
-  border-color: var(--color-error);
-  background: var(--color-surface);
-  color: var(--color-error);
-}
-
-.btn--destructive:hover:not(:disabled) {
-  border-color: var(--color-error);
-  background: var(--color-error);
-  color: var(--color-on-primary);
-}
-
-.btn--destructive:focus-visible {
-  outline: var(--focus-ring-width) solid var(--color-error);
-  outline-offset: var(--focus-ring-offset);
 }
 
 .profile-settings__actions,
