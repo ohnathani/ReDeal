@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Favicon Generator — ReDeal</title>
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="generate-favicons.css">
+</head>
+<body>
+  <main class="tool">
+    <h1>ReDeal Favicon Generator</h1>
+    <p>
+      Download the PNGs at each size, then use an online tool such as
+      <a href="https://www.favicon-generator.org/">favicon-generator.org</a>
+      to create <code>favicon.ico</code>.
+    </p>
+    <p class="tool__note">
+      This page loads <code>../assets/images/favicon.svg</code> with <code>fetch</code>, so open it through a
+      local server (Live Server or <code>python -m http.server</code>), not by double-clicking the file.
+    </p>
+
+    <p class="tool__error" id="error" role="alert" hidden></p>
+    <div id="sizes" class="tool__sizes"></div>
+
+    <button type="button" class="tool__btn" id="download-all">Download All PNGs</button>
+  </main>
+
+  <script src="generate-favicons.js"></script>
+</body>
+</html>
