@@ -19,6 +19,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Phase 1: Project Setup & Base Architecture** — Complete foundation with design system, component library, shared data layer
 - **Phase 2: Product Detail Page** — Full product detail experience with gallery, product info, seller card, favorite toggle, Message Seller/Make Offer modals, share functionality, responsive design
 - **Phase 2 Fixes (Luna Review 1-3)** — Resolved all Priority 0, 1, 2 conditions across 3 reviews
+- **Phase 3: Create Listing** (closed 2026-11-05) — `create-listing.html` with validation, localStorage persistence, and Modal-based unsaved-changes confirm; new listings appear in Marketplace and Home
+- **Phase 4: Authentication** (implemented 2026-11-05) — `login.html`, `signup.html`, session handling, route guards, header auth area, per-user favorites, profile page, "Continue as Guest" demo bypass. Browser verification for Phase 4 is not recorded in `IMPLEMENTATION_LOG.md`
+- **Real product photos** (2026-11-05) — 15 local images in `assets/images/products/` replace SVG placeholders
+- **Requests page** (2026-11-22) — `requests.html`, `js/pages/Requests.js`, `css/requests.css`: post-a-request form with validation, category filter chips, request search, sample requests
+- **Messages page** (2026-11-22) — `messages.html`, `js/pages/Messages.js`, `css/messages.css`: conversation list with All/Unread tabs, chat thread, quick replies. Replies are simulated and stored only in the browser (prototype)
+- **`tools/` folder** — favicon generator moved here as `generate-favicons.html`, `.css`, `.js`
 
 ### Changed
 - **Deprecated orange branding** (`#BF4408`, `#E65103`, `#2563eb`, `#1d4ed8`) replaced with Electric Violet palette
@@ -26,6 +32,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Hardcoded colors eliminated** — All CSS uses design tokens from `variables.css` (added `--color-on-primary`, `--color-success-bg`, `--color-warning-bg`, `--color-error-bg`, `--shadow-action-bar`, `--overlay-backdrop`)
 - **PWA manifest routes** — Changed from absolute (`/marketplace`, `/sell`) to relative (`./marketplace.html`, `./sell.html`)
 - **Modal handlers** — Fixed async regression causing double-close; alerts now sequence via `onClose` callback
+- **Requests page layout** (2026-11-22) — `requests.html` was a standalone preview with `#` links; it now uses the shared header, skip link, bottom nav, footer, meta description and favicon/manifest links
+- **Header logo removed from `messages.html`** — no page shows the logo now, so headers are consistent
+- **`login.html` and `signup.html`** — added the `header__auth` container used by the other pages
+- **Favicon generator** — moved to `tools/`; inline `onclick` and hardcoded colors removed (now uses tokens from `variables.css`); fixed blank canvas previews
 
 ### Fixed
 - Homepage bottom nav `preventDefault()` blocking navigation
@@ -38,6 +48,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Missing thumbnail error handler added
 - Native `prompt()`/`alert()` replaced with Modal component helpers
 - Implementation log accuracy — all claims downgraded to "Manually Tested (unverified)" without browser evidence
+- **`assets/manifest.json` paths** (2026-11-22) — icon, shortcut and `start_url` paths are now relative to the `assets/` folder; removes the 404 for `icon-192.svg` and the manifest warning in the console
+- **"Product Not Found" on valid product URLs** (DEFERRED-1) — fixed via String coercion in product lookup (2026-11-05)
+
+### Removed
+- **`sell.html`** (2026-11-22) — redirect page deleted; the manifest shortcut now points to `create-listing.html`
 
 ---
 
